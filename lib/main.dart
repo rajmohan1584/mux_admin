@@ -29,12 +29,12 @@ void main() {
 }
 
 class RestartWidget extends StatefulWidget {
-  RestartWidget({this.child});
+  RestartWidget({super.key, required this.child});
 
   final Widget child;
 
   static void restartApp(BuildContext context) {
-    context.findAncestorStateOfType<_RestartWidgetState>().restartApp();
+    context.findAncestorStateOfType<_RestartWidgetState>()!.restartApp();
   }
 
   @override
@@ -64,43 +64,40 @@ class PlatformApp extends StatelessWidget {
   PlatformApp(this._logout);
   @override
   Widget build(context) {
-    
     // Either Material or Cupertino widgets work in either Material or Cupertino
     // Apps.
     return MaterialApp(
-      title: 'TM Mux Admin',
-      theme: ThemeData(
-        // Use the green theme for Material widgets.
-        primarySwatch: Colors.green,
-        brightness: Brightness.light
-      ),
-      darkTheme: ThemeData(
-        brightness: Brightness.dark
-      ),
-    // additional settings go here
-      builder: (context, child) {
-        bool qDarkmodeEnable = false;
-        var qdarkMode = MediaQuery.of(context).platformBrightness;
-        if (qdarkMode == Brightness.dark){
-            qDarkmodeEnable=true;
-        } else {
-            qDarkmodeEnable=false;
-        }
-        var cupertinoTheme = CupertinoTheme(
-          // Instead of letting Cupertino widgets auto-adapt to the Material
-          // theme (which is green), this app will use a different theme
-          // for Cupertino (which is blue by default).
-          data: CupertinoThemeData(
-            brightness: (qDarkmodeEnable==true) ? Brightness.dark : Brightness.light,
-          ),
-          child: Material(child: child),
-        );
-        return cupertinoTheme;
-      },
+        title: 'TM Mux Admin',
+        theme: ThemeData(
+            // Use the green theme for Material widgets.
+            primarySwatch: Colors.green,
+            brightness: Brightness.light),
+        darkTheme: ThemeData(brightness: Brightness.dark),
+        // additional settings go here
+        builder: (context, child) {
+          bool qDarkmodeEnable = false;
+          var qdarkMode = MediaQuery.of(context).platformBrightness;
+          if (qdarkMode == Brightness.dark) {
+            qDarkmodeEnable = true;
+          } else {
+            qDarkmodeEnable = false;
+          }
+          var cupertinoTheme = CupertinoTheme(
+            // Instead of letting Cupertino widgets auto-adapt to the Material
+            // theme (which is green), this app will use a different theme
+            // for Cupertino (which is blue by default).
+            data: CupertinoThemeData(
+              brightness: (qDarkmodeEnable == true)
+                  ? Brightness.dark
+                  : Brightness.light,
+            ),
+            child: Material(child: child),
+          );
+          return cupertinoTheme;
+        },
 //      home: PlatformAdaptingHomePage(),
-      //home: PlatformNav(),
-      home: LoginScreen()
-    );
+        //home: PlatformNav(),
+        home: LoginScreen());
   }
 }
 

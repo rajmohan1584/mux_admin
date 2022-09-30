@@ -12,9 +12,9 @@ class SolicitationsTab extends StatefulWidget {
   static const title = 'Solicitations';
   static const androidIcon = Icon(Icons.music_note);
 
-  const SolicitationsTab({Key key, this.androidDrawer}) : super(key: key);
+  const SolicitationsTab({Key? key, this.androidDrawer}) : super(key: key);
 
-  final Widget androidDrawer;
+  final Widget? androidDrawer;
 
   @override
   _SolicitationsTabState createState() => _SolicitationsTabState();
@@ -46,7 +46,7 @@ class _SolicitationsTabState extends State<SolicitationsTab> {
   }
 
   Widget _listBuilder(BuildContext context, int index) {
-    if (index >= sols.length) return null;
+    if (index >= sols.length) return Text('null');
     Solicitation sol = sols[index];
 
     return SafeArea(
@@ -80,7 +80,8 @@ class _SolicitationsTabState extends State<SolicitationsTab> {
         actions: [
           IconButton(
             icon: Icon(Icons.refresh),
-            onPressed: () async => await _androidRefreshKey.currentState.show(),
+            onPressed: () async =>
+                await _androidRefreshKey.currentState!.show(),
           ),
           IconButton(
             icon: Icon(Icons.search),

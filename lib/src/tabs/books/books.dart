@@ -14,10 +14,13 @@ import 'detail.dart';
 class BooksTab extends StatefulWidget {
   static const title = 'Books';
   static const androidIcon = Icon(Icons.music_note);
-  static const iosIcon = Image(image:AssetImage("assets/images/books.png"));
-  static const iosIconActive = Image(image:AssetImage("assets/images/books-filled.png"), color: Colors.blue,);
+  static const iosIcon = Image(image: AssetImage("assets/images/books.png"));
+  static const iosIconActive = Image(
+    image: AssetImage("assets/images/books-filled.png"),
+    color: Colors.blue,
+  );
 
-  const BooksTab({Key key, this.androidDrawer}) : super(key: key);
+  const BooksTab({Key? key, required this.androidDrawer}) : super(key: key);
 
   final Widget androidDrawer;
 
@@ -31,30 +34,25 @@ class _BooksTabState extends State<BooksTab> {
 
   @override
   void initState() {
-      setState(() {
-        _books.reload(oBOOKS);
-      });
+    setState(() {
+      _books.reload(oBOOKS);
+    });
     super.initState();
   }
 
-
   Widget _listBuilder(BuildContext context, int index) {
-    if (index >= _books.length) return null;
-    
+    if (index >= _books.length) return Text('null');
+
     return SafeArea(
         top: false,
         bottom: false,
         child: GestureDetector(
-          onTap: () {
-            Navigator.of(context).push<void>(
-              MaterialPageRoute(
-                builder: (context) => BookDetailTab()
-              )
-            );
-          },
-          child: buildBook(context, index) //_buildCard(context)
-        )
-      );
+            onTap: () {
+              Navigator.of(context).push<void>(
+                  MaterialPageRoute(builder: (context) => BookDetailTab()));
+            },
+            child: buildBook(context, index) //_buildCard(context)
+            ));
   }
 
   buildBook(BuildContext context, int index) {
@@ -65,122 +63,111 @@ class _BooksTabState extends State<BooksTab> {
     ];
 
     return Card(
-        margin: EdgeInsets.fromLTRB(6, 6, 6, 6),
-        elevation: 5,
-        child: Padding(
+      margin: EdgeInsets.fromLTRB(6, 6, 6, 6),
+      elevation: 5,
+      child: Padding(
           padding: const EdgeInsets.all(3.0),
           child: Row(
             children: children,
-          )
-      ),
+          )),
     );
   }
 
   Widget sideContainer(BuildContext context, List<Widget> children) {
     return Container(
-      width: SCREEN.halfWidth-10.0,
+        width: SCREEN.halfWidth - 10.0,
 //      height: 200,
-      child: Card(
-        margin: EdgeInsets.fromLTRB(6, 6, 6, 6),
-        elevation: 3,
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(4, 4, 4, 4),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: children
-          ),
-        )
-      )
-    );
+        child: Card(
+            margin: EdgeInsets.fromLTRB(6, 6, 6, 6),
+            elevation: 3,
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(4, 4, 4, 4),
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: children),
+            )));
   }
 
   Widget buildBidSide(BuildContext context, BookSide bid) {
     final infoData = Column(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: <Widget>[
-        WIDGETS.nameImage('bid', IMAGES.bid),
-        SizedBox(height: 10),
-        WIDGETS.dateTime(bid.createdDateShortStr, bid.createdTimeStr)
-      ]
-    );
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          WIDGETS.nameImage('bid', IMAGES.bid),
+          SizedBox(height: 10),
+          WIDGETS.dateTime(bid.createdDateShortStr, bid.createdTimeStr)
+        ]);
 
     final qtyData = Column(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: <Widget>[
-        WIDGETS.bid('qty', bid.quantityStr),
-        SizedBox(height: 10),
-        WIDGETS.bid('min', bid.minQuantityStr),
-        SizedBox(height: 10),
-        WIDGETS.bid('rating', bid.ratingStr),
-        SizedBox(height: 10),
-        WIDGETS.bid('tradable', bid.tradableStr),
-      ]
-    );
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          WIDGETS.bid('qty', bid.quantityStr),
+          SizedBox(height: 10),
+          WIDGETS.bid('min', bid.minQuantityStr),
+          SizedBox(height: 10),
+          WIDGETS.bid('rating', bid.ratingStr),
+          SizedBox(height: 10),
+          WIDGETS.bid('tradable', bid.tradableStr),
+        ]);
 
     final priceData = Column(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: <Widget>[
-        WIDGETS.bid('source', bid.contra),
-        SizedBox(height: 10),
-        WIDGETS.bid('price', bid.priceStr),
-        SizedBox(height: 10),
-        WIDGETS.bid('yield', bid.yieldStr),
-        SizedBox(height: 10),
-        WIDGETS.bid('spread', bid.spreadStr),
-      ]
-    );
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          WIDGETS.bid('source', bid.contra),
+          SizedBox(height: 10),
+          WIDGETS.bid('price', bid.priceStr),
+          SizedBox(height: 10),
+          WIDGETS.bid('yield', bid.yieldStr),
+          SizedBox(height: 10),
+          WIDGETS.bid('spread', bid.spreadStr),
+        ]);
 
     return sideContainer(context, [infoData, qtyData, priceData]);
   }
 
   Widget buildAskSide(BuildContext context, BookSide ask) {
     final infoData = Column(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: <Widget>[
-        WIDGETS.nameImage('ask', IMAGES.ask),
-        SizedBox(height: 10),
-        WIDGETS.dateTime(ask.createdDateShortStr, ask.createdTimeStr)
-      ]
-    );
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          WIDGETS.nameImage('ask', IMAGES.ask),
+          SizedBox(height: 10),
+          WIDGETS.dateTime(ask.createdDateShortStr, ask.createdTimeStr)
+        ]);
 
     final qtyData = Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: <Widget>[
-        WIDGETS.ask('qty', ask.quantityStr),
-        SizedBox(height: 10),
-        WIDGETS.ask('min', ask.minQuantityStr),
-        SizedBox(height: 10),
-        WIDGETS.ask('rating', ask.ratingStr),
-        SizedBox(height: 10),
-        WIDGETS.ask('tradable', ask.tradableStr),
-      ]
-    );
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: <Widget>[
+          WIDGETS.ask('qty', ask.quantityStr),
+          SizedBox(height: 10),
+          WIDGETS.ask('min', ask.minQuantityStr),
+          SizedBox(height: 10),
+          WIDGETS.ask('rating', ask.ratingStr),
+          SizedBox(height: 10),
+          WIDGETS.ask('tradable', ask.tradableStr),
+        ]);
 
     final priceData = Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: <Widget>[
-        WIDGETS.ask('source', ask.contra),
-        SizedBox(height: 10),
-        WIDGETS.ask('price', ask.priceStr),
-        SizedBox(height: 10),
-        WIDGETS.ask('yield', ask.yieldStr),
-        SizedBox(height: 10),
-        WIDGETS.ask('spread', ask.spreadStr),
-      ]
-    );
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: <Widget>[
+          WIDGETS.ask('source', ask.contra),
+          SizedBox(height: 10),
+          WIDGETS.ask('price', ask.priceStr),
+          SizedBox(height: 10),
+          WIDGETS.ask('yield', ask.yieldStr),
+          SizedBox(height: 10),
+          WIDGETS.ask('spread', ask.spreadStr),
+        ]);
 
     return sideContainer(context, [priceData, qtyData, infoData]);
   }
 
-  void _setData() {
-  }
+  void _setData() {}
 
   Future<void> _refreshData() {
     return Future.delayed(
@@ -208,12 +195,13 @@ class _BooksTabState extends State<BooksTab> {
         actions: [
           IconButton(
             icon: Icon(Icons.refresh),
-            onPressed: () async => await _androidRefreshKey.currentState.show(),
+            onPressed: () async =>
+                await _androidRefreshKey.currentState!.show(),
           ),
           IconButton(
             icon: Icon(Icons.search),
             onPressed: () {
-               //TMAlert.alert(context, 'title', 'message');
+              //TMAlert.alert(context, 'title', 'message');
             },
           ),
         ],
@@ -238,7 +226,7 @@ class _BooksTabState extends State<BooksTab> {
             padding: EdgeInsets.zero,
             child: Icon(CupertinoIcons.search),
             onPressed: () {
-               //TMAlert.alert(context, 'title', 'message');
+              //TMAlert.alert(context, 'title', 'message');
             },
           ),
         ),

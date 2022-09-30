@@ -21,7 +21,7 @@ class LoginHostSelector extends StatelessWidget {
   Widget _buildAndroid(BuildContext context) {
     return new WillPopScope(
       onWillPop: () async {
-        Navigator.pop(context, key.currentState.getHost());
+        Navigator.pop(context, key.currentState!.getHost());
         return true;
       },
       child: new Scaffold(
@@ -41,12 +41,11 @@ class LoginHostSelector extends StatelessWidget {
   Widget _buildIos(BuildContext context) {
     Widget back = CupertinoNavigationBarBackButton(
       onPressed: () {
-        Navigator.pop(context, key.currentState.getHost());
+        Navigator.pop(context, key.currentState!.getHost());
       },
       previousPageTitle: 'Login',
     );
     return CupertinoPageScaffold(
-      
       navigationBar: CupertinoNavigationBar(
         middle: Text('Select Cluster'),
         leading: back,
@@ -68,14 +67,13 @@ class LoginHostSelector extends StatelessWidget {
 class HostListWidget extends StatefulWidget {
   final String _host;
 
-  HostListWidget(key, this._host) : super(key:key);
+  HostListWidget(key, this._host) : super(key: key);
   @override
   HostListWidgetState createState() => HostListWidgetState();
 }
 
-
 class HostListWidgetState extends State<HostListWidget> {
-  String host;
+  late String host;
   final hostCtlr = TextEditingController();
   String getHost() {
     if (host == '<user>') return hostCtlr.text;
@@ -128,62 +126,65 @@ class HostListWidgetState extends State<HostListWidget> {
         children: <Widget>[
           WIDGETS.avatar("cloud.png", true),
           Table(
-            //border: TableBorder.all(),
-            defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-            columnWidths: {
-              0: FlexColumnWidth(1.0),
-              1: IntrinsicColumnWidth(),
-              2: FlexColumnWidth(1.0),
-            },
-            children: children
-          ),
+              //border: TableBorder.all(),
+              defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+              columnWidths: {
+                0: FlexColumnWidth(1.0),
+                1: IntrinsicColumnWidth(),
+                2: FlexColumnWidth(1.0),
+              },
+              children: children),
         ],
       ),
     );
   }
 
   TableRow buildClusterRow(BuildContext context, item) {
-    return TableRow(
-      children:[
-        Container(height:75, child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[Text('${item.name}')])),
-        Text('${item.url}'),
-        PlatformSwitch(
-          onChanged: (bool value) {
-            setState(() {
-              host = item.url ;
-            });
-          },
-          value: item.url==host,
-        )
-      ]);
+    return TableRow(children: [
+      Container(
+          height: 75,
+          child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[Text('${item.name}')])),
+      Text('${item.url}'),
+      PlatformSwitch(
+        onChanged: (bool value) {
+          setState(() {
+            host = item.url;
+          });
+        },
+        value: item.url == host,
+      )
+    ]);
   }
 
   TableRow buildUserRow() {
-    return TableRow(
-      children:[
-        Container(height:75, child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[Text('User')])),
-        SizedBox(
+    return TableRow(children: [
+      Container(
+          height: 75,
+          child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[Text('User')])),
+      SizedBox(
           width: 200,
           height: 50,
           child: TextField(
-            controller: hostCtlr,
-            autocorrect: false,
-            obscureText: false,
-            decoration: InputDecoration(
-              border: InputBorder.none,
-              fillColor: Color(0xfff3f3f4),
-              filled: true,
-        ))),
-        PlatformSwitch(
-          onChanged: (bool value) {
-            setState(() {host = '<user>' ;});
-          },
-          value: host=='<user>',
-        )
-      ]);
+              controller: hostCtlr,
+              autocorrect: false,
+              obscureText: false,
+              decoration: InputDecoration(
+                border: InputBorder.none,
+                fillColor: Color(0xfff3f3f4),
+                filled: true,
+              ))),
+      PlatformSwitch(
+        onChanged: (bool value) {
+          setState(() {
+            host = '<user>';
+          });
+        },
+        value: host == '<user>',
+      )
+    ]);
   }
 }

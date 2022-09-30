@@ -9,7 +9,7 @@ class TMButton extends StatelessWidget {
   final bool disabled;
   final String _text;
   final String _color;
-  final Function _onPressed;
+  final Function() _onPressed;
 
   TMButton(this.context, this._text, this._color, this._onPressed,
       {this.disabled = false});
@@ -54,7 +54,7 @@ class TMIconButton extends StatelessWidget {
   final String _png;
   final String _text;
   final Color _color;
-  final Function _onPressed;
+  final Function() _onPressed;
 
   TMIconButton(
       this.context, this._png, this._text, this._color, this._onPressed,
@@ -62,7 +62,7 @@ class TMIconButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Color color;
+    Color? color;
     if (disabled) color = Colors.grey;
     Color textColor = (disabled) ? Colors.grey : Colors.black;
 

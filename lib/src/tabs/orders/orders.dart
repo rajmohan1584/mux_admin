@@ -19,7 +19,7 @@ class OrdersTab extends StatefulWidget {
     color: Colors.blue,
   ); //Icon(CupertinoIcons.music_note);
 
-  const OrdersTab({Key key, this.androidDrawer}) : super(key: key);
+  const OrdersTab({Key? key, required this.androidDrawer}) : super(key: key);
 
   final Widget androidDrawer;
 
@@ -41,7 +41,7 @@ class _OrdersTabState extends State<OrdersTab> {
   }
 
   Widget _listBuilder(BuildContext context, int index) {
-    if (index >= orders.length) return null;
+    if (index >= orders.length) return Text('null');
 
     return SafeArea(
         top: false,
@@ -203,7 +203,8 @@ class _OrdersTabState extends State<OrdersTab> {
         actions: [
           IconButton(
             icon: Icon(Icons.refresh),
-            onPressed: () async => await _androidRefreshKey.currentState.show(),
+            onPressed: () async =>
+                await _androidRefreshKey.currentState!.show(),
           ),
           IconButton(
             icon: Icon(Icons.search),

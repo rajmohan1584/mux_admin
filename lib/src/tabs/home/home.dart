@@ -16,12 +16,17 @@ final iconCLT2987 = Image.asset('assets/images/CLT2987.jpg', scale: 2);
 class HomeTab extends StatefulWidget {
   static const title = 'Home';
   static const androidIcon = Icon(Icons.music_note);
-  static const iosIcon = Image(image:AssetImage("assets/images/home.png"));//Icon(CupertinoIcons.music_note);
-  static const iosIconActive = Image(image:AssetImage("assets/images/home-filled.png"), color: Colors.blue,);//Icon(CupertinoIcons.music_note);
+  static const iosIcon = Image(
+      image: AssetImage(
+          "assets/images/home.png")); //Icon(CupertinoIcons.music_note);
+  static const iosIconActive = Image(
+    image: AssetImage("assets/images/home-filled.png"),
+    color: Colors.blue,
+  ); //Icon(CupertinoIcons.music_note);
 
-  const HomeTab({Key key, this.androidDrawer}) : super(key: key);
+  const HomeTab({Key? key, this.androidDrawer}) : super(key: key);
 
-  final Widget androidDrawer;
+  final Widget? androidDrawer;
 
   @override
   _HomeTabState createState() => _HomeTabState();
@@ -37,7 +42,7 @@ class _HomeTabState extends State<HomeTab> {
   @override
   void initState() {
     setState(() {
-     // _home.updateFromJson(oHOME);
+      // _home.updateFromJson(oHOME);
 //      _home = Home.fromJson(oHOME);
     });
     onReloadData();
@@ -55,7 +60,7 @@ class _HomeTabState extends State<HomeTab> {
   }
 
   Widget _listBuilder(BuildContext context, int index) {
-    if (index > _home.connections.length) return null;
+    if (index > _home.connections.length) return Text('null');
 
     return GestureDetector(
       onTap: () {
@@ -63,20 +68,14 @@ class _HomeTabState extends State<HomeTab> {
         //final List<Object> connections = oHOME['connections'];
         //final HomeDetailTab hdt = HomeDetailTab.fromJson(connections[0]);
         final connections = _home.connections;
-        final connStats = connections[index-1];
+        final connStats = connections[index - 1];
         HomeDetailTab hdt = HomeDetailTab(connStats);
-        
-        Navigator.of(context).push<void>(
-          MaterialPageRoute(
-            builder: (context) => hdt
-          )
-        );
+
+        Navigator.of(context)
+            .push<void>(MaterialPageRoute(builder: (context) => hdt));
       },
       child: SafeArea(
-        top: false,
-        bottom: false,
-        child: _buildCard(context, index)
-      ),
+          top: false, bottom: false, child: _buildCard(context, index)),
     );
   }
 
@@ -84,38 +83,46 @@ class _HomeTabState extends State<HomeTab> {
     if (index == 0) return buildMarketStatsCard(context);
 
     final connections = _home.connections;
-    final connStats = connections[index-1];
+    final connStats = connections[index - 1];
 
     return buildConnectionStatsCard(context, connStats);
   }
 
   Widget buildMarketStatsCard(BuildContext context) {
     final marketStats = _home.marketStats;
-    return HomeTile(Column(
+    return HomeTile(
+      Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           ListTile(
-            leading: IMAGES.getClientLogo("Market"),//(Icons.album),
+            leading: IMAGES.getClientLogo("Market"), //(Icons.album),
             title: Text('Market'),
             //subtitle: Text('Music by Julie Gable. Lyrics by Sidney Stein.'),
           ),
           HomeHelper.buildStatsRow(context, 'Status', marketStats.status),
-          HomeHelper.buildStatsRow(context, 'Offers', marketStats.offerCountStr),
-          HomeHelper.buildStatsRow(context, 'Requests', marketStats.requestCountStr),
-          HomeHelper.buildStatsRow(context, 'Securities', marketStats.securityCountStr),
-          HomeHelper.buildStatsRow(context, 'Tradable Ask', marketStats.tradableAskCountStr),
-          HomeHelper.buildStatsRow(context, 'Tradable Bid', marketStats.tradableBidCountStr),
+          HomeHelper.buildStatsRow(
+              context, 'Offers', marketStats.offerCountStr),
+          HomeHelper.buildStatsRow(
+              context, 'Requests', marketStats.requestCountStr),
+          HomeHelper.buildStatsRow(
+              context, 'Securities', marketStats.securityCountStr),
+          HomeHelper.buildStatsRow(
+              context, 'Tradable Ask', marketStats.tradableAskCountStr),
+          HomeHelper.buildStatsRow(
+              context, 'Tradable Bid', marketStats.tradableBidCountStr),
         ],
       ),
     );
   }
 
-  Widget buildConnectionStatsCard(BuildContext context, ConnectionStats connStats) {
-    return HomeTile(Column(
+  Widget buildConnectionStatsCard(
+      BuildContext context, ConnectionStats connStats) {
+    return HomeTile(
+      Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           ListTile(
-            leading: IMAGES.getClientLogo(connStats.name),// Icon(Icons.album),
+            leading: IMAGES.getClientLogo(connStats.name), // Icon(Icons.album),
             title: Text(connStats.name),
             //subtitle: Text('Music by Julie Gable. Lyrics by Sidney Stein.'),
           ),
@@ -130,8 +137,7 @@ class _HomeTabState extends State<HomeTab> {
     );
   }
 
-  void _setData() {
-  }
+  void _setData() {}
 
   Widget buildLayout(context) {
     return StaggeredGridView.count(
@@ -182,7 +188,8 @@ class _HomeTabState extends State<HomeTab> {
         actions: [
           IconButton(
             icon: Icon(Icons.refresh),
-            onPressed: () async => await _androidRefreshKey.currentState.show(),
+            onPressed: () async =>
+                await _androidRefreshKey.currentState!.show(),
           ),
           IconButton(
             icon: Icon(Icons.search),

@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 
 class TMScreenUtil {
-  static double _width;
-  static double _height;
-  static bool _isLong;
-  static bool _isMaxWidth;
-  static bool _isMediumWidth;
-  static bool _isNarrowWidth;
-  static bool _isMaxHeight;
-  static bool _isMediumHeight;
-  static bool _isSmallHeight;
+  static double _width = 0;
+  static double _height = 0;
+  static bool _isLong = false;
+  static bool _isMaxWidth = false;
+  static bool _isMediumWidth = false;
+  static bool _isNarrowWidth = false;
+  static bool _isMaxHeight = false;
+  static bool _isMediumHeight = false;
+  static bool _isSmallHeight = false;
 
   static double get width => _width;
   static double get height => _height;

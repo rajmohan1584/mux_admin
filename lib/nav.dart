@@ -26,7 +26,7 @@ import 'package:mux_admin/src/tabs/offers/offers.dart';
 //IO.Socket ws;
 
 final GlobalKey<NavigatorState> firstTabNavKey = GlobalKey<NavigatorState>();
-Timer _timer;
+late Timer _timer;
 //IOWebSocketChannel ws;
 
 // Shows a different type of scaffold depending on the platform.
@@ -288,7 +288,6 @@ class _PlatformNavState extends State<PlatformNav> with WidgetsBindingObserver {
           default:
             return LoginScreen();
             assert(false, 'Unexpected tab');
-            return null;
         }
       },
     );

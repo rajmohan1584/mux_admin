@@ -28,8 +28,8 @@ class _TradeDetailTabState extends State<TradeDetailTab> {
   static Widget routedToTitle() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 15, 20, 5),
-      child: Text("TODO", 
-        textAlign: TextAlign.center, style:TextStyle(fontSize:18.0)),
+      child: Text("TODO",
+          textAlign: TextAlign.center, style: TextStyle(fontSize: 18.0)),
     );
   }
 
@@ -57,17 +57,12 @@ class _TradeDetailTabState extends State<TradeDetailTab> {
   }
 
   Widget _listBuilder(BuildContext context, int index) {
-    if (index >= 0) return null;
-    
+    if (index >= 0) return Text('null');
+
     return SafeArea(
         top: false,
         bottom: false,
-        child: GestureDetector(
-          onTap: () {
-          },
-          child: Text('TODO')
-        )
-      );
+        child: GestureDetector(onTap: () {}, child: Text('TODO')));
   }
 
   Widget _buildAndroid(BuildContext context) {

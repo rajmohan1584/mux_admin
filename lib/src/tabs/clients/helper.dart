@@ -27,10 +27,11 @@ class ClientsHelper {
       secondaryActions: secondaryActions,
     );
     */
+    return Text('null');
   }
 
   static Widget buildClientCard(BuildContext context, Client client,
-      [EdgeInsets margin]) {
+      [EdgeInsets? margin]) {
     Widget clientRow = buildClientRow(context, client);
     Widget connRow = buildConnectionRow(context, client.connection);
 

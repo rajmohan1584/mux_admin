@@ -57,8 +57,8 @@ class _OfferDetailTabState extends State<OfferDetailTab> {
   static Widget routedToTitle() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 15, 20, 5),
-      child: Text("Clients Routed To", 
-      textAlign: TextAlign.center, style:TextStyle(fontSize:18.0)),
+      child: Text("Clients Routed To",
+          textAlign: TextAlign.center, style: TextStyle(fontSize: 18.0)),
     );
   }
 
@@ -86,28 +86,27 @@ class _OfferDetailTabState extends State<OfferDetailTab> {
   }
 
   Widget _listBuilder(BuildContext context, int index) {
-    if (index >= connectionIds.length) return null;
+    if (index >= connectionIds.length) return Text('null');
     final connectionId = connectionIds[index];
 
     Client client = clients.ofConnectionId(connectionId);
     if (client == null) return Text('Bug');
-    
+
     return SafeArea(
         top: false,
         bottom: false,
         child: GestureDetector(
-          onTap: () {
-            Connection conn = client.connection;
-            String id = conn==null ? null : conn.connectionId;
-            Navigator.of(context).push<void>(
-              MaterialPageRoute(
-                builder: (context) => ClientDetailTab(client, id)
-              )
-            ).then((value) => onReloadData());
-          },
-          child: ClientsHelper.buildClientSlider(context, client, setLoading, onReloadData) //_buildCard(context)
-        )
-      );
+            onTap: () {
+              Connection conn = client.connection;
+              String id = conn.connectionId;
+              Navigator.of(context)
+                  .push<void>(MaterialPageRoute(
+                      builder: (context) => ClientDetailTab(client, id)))
+                  .then((value) => onReloadData());
+            },
+            child: ClientsHelper.buildClientSlider(
+                context, client, setLoading, onReloadData) //_buildCard(context)
+            ));
   }
 
   Widget _buildAndroid(BuildContext context) {

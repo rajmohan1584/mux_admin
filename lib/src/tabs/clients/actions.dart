@@ -193,7 +193,7 @@ class ClientActions {
       final cid = conn.connectionId;
 
       actions.add(SlidableAction(
-          backgroundColor: COLORS.darkBackground['red'],
+          backgroundColor: COLORS.darkBackground['red']!,
           foregroundColor: Colors.white,
           onPressed: (context) =>
               disconnect(context, cid, name, preAction, postAction),
@@ -210,7 +210,7 @@ class ClientActions {
       */
       if (conn.active) {
         actions.add(SlidableAction(
-            backgroundColor: COLORS.darkBackground['orange'],
+            backgroundColor: COLORS.darkBackground['orange']!,
             onPressed: (context) =>
                 stop(context, cid, name, preAction, postAction),
             //icon:IMAGES.assetImage("stop_connection.png",width:40, height:40),
@@ -226,7 +226,7 @@ class ClientActions {
         */
       } else {
         actions.add(SlidableAction(
-            backgroundColor: COLORS.darkBackground['blue'],
+            backgroundColor: COLORS.darkBackground['blue']!,
             onPressed: (context) => onStart(cid, preAction, postAction),
             //icon:IMAGES.assetImage("start_connection.png", width: 40, height: 40),
             label: "Start"));
@@ -244,7 +244,7 @@ class ClientActions {
       final clientId = client.clientId;
       final name = client.displayName;
       actions.add(SlidableAction(
-          backgroundColor: COLORS.darkBackground['blue'],
+          backgroundColor: COLORS.darkBackground['blue']!,
           onPressed: (context) =>
               connect(context, clientId, name, preAction, postAction),
           //icon: IMAGES.assetImage("connect.png", width:40, height:40),
@@ -267,7 +267,7 @@ class ClientActions {
     final actions = <Widget>[];
     if (conn == null || !conn.connected) {
       actions.add(SlidableAction(
-          backgroundColor: COLORS.darkBackground['gray'],
+          backgroundColor: COLORS.darkBackground['gray']!,
           onPressed: (context) => print('NooP'),
           //icon:IMAGES.assetImage("not_connected.png",width:40, height:40),
           label: "N/A"));
@@ -289,7 +289,7 @@ class ClientActions {
     final active = conn.active;
 
     actions.add(SlidableAction(
-        backgroundColor: COLORS.darkBackground['yellow'],
+        backgroundColor: COLORS.darkBackground['yellow']!,
         onPressed: (context) =>
             pull(context, cid, name, active, preAction, postAction),
         //icon: IMAGES.assetImage("pull_connection.png",width:40, height:40),
@@ -307,7 +307,7 @@ class ClientActions {
 
     if (active) {
       actions.add(SlidableAction(
-          backgroundColor: COLORS.darkBackground['blue'],
+          backgroundColor: COLORS.darkBackground['blue']!,
           onPressed: (context) => send(cid, preAction, postAction),
           //icon: IMAGES.assetImage("send_connection.png",width:40, height:40),
           label: "Send"));

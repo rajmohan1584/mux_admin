@@ -8,67 +8,71 @@ class OfferHelper {
   static Widget buildStatsTitle(BuildContext context) {
     return Text('Title');
   }
-  
-  static buildOffer(BuildContext context, Offer offer, [EdgeInsets margin]) {
+
+  static buildOffer(BuildContext context, Offer offer, [EdgeInsets? margin]) {
     final children = <Widget>[
       Padding(
-        padding:EdgeInsets.symmetric(horizontal: 15.0, vertical: 5.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            mainRow(context, offer),
-            WIDGETS.security(offer.security),
-            WIDGETS.hl(),
-            detailRow(context, offer)
-          ],
-        )
-      ),
+          padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 5.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              mainRow(context, offer),
+              WIDGETS.security(offer.security),
+              WIDGETS.hl(),
+              detailRow(context, offer)
+            ],
+          )),
       //buildBottomRow(context, name, status)
     ];
 
     return Card(
-      margin:  margin!=null ? margin : EdgeInsets.fromLTRB(12, 12, 12, 0),
-      elevation: 5,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children:children
-      )
-    );
+        margin: margin != null ? margin : EdgeInsets.fromLTRB(12, 12, 12, 0),
+        elevation: 5,
+        child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: children));
   }
 
   static Widget mainRow(BuildContext context, Offer offer) {
-    final side = (offer.hasBid && offer.hasAsk) ? "bid-ask" : offer.hasBid ? "bid" : "ask";
+    final side = (offer.hasBid && offer.hasAsk)
+        ? "bid-ask"
+        : offer.hasBid
+            ? "bid"
+            : "ask";
     Widget icon;
-    if (side=='ask') icon = WIDGETS.nameImage(side, IMAGES.ask);
+    if (side == 'ask')
+      icon = WIDGETS.nameImage(side, IMAGES.ask);
+    else if (side == 'bid')
+      icon = WIDGETS.nameImage(side, IMAGES.bid);
     else
-    if (side=='bid') icon = WIDGETS.nameImage(side, IMAGES.bid);
-    else
-    icon = WIDGETS.nameImage(side, IMAGES.bidask);
+      icon = WIDGETS.nameImage(side, IMAGES.bidask);
 
     Widget left = Row(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: <Widget>[icon,
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          icon,
 /*        Image.asset(
           'assets/images/' + side + '-offering.png',
           width: 30,
           height: 30,
           fit: BoxFit.cover,
         ),
-*/        Padding(
-          padding: const EdgeInsets.only(left:8.0),
-          child: Text(offer.dispRequestId, style:TextStyle(fontWeight: FontWeight.bold)),
-        )
-      ]);
+*/
+          Padding(
+            padding: const EdgeInsets.only(left: 8.0),
+            child: Text(offer.dispRequestId,
+                style: TextStyle(fontWeight: FontWeight.bold)),
+          )
+        ]);
 
     //Widget mid = Text(offer.cusip);
 
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: <Widget>[left]
-    );
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[left]);
   }
 
   /*
@@ -122,21 +126,23 @@ class OfferHelper {
     if (offer.hasBid && offer.hasAsk) dtItems.add(Text(""));
 
     Widget dt = Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children:dtItems
-    );
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: dtItems);
 
     final ttlItems = <Widget>[];
-    if (offer.hasBid) ttlItems.add(Text("BID", style:TextStyle(fontSize:14.0, color: COLORS.bid)));
-    if (offer.hasAsk) ttlItems.add(Text("ASK", style:TextStyle(fontSize:14.0, color: COLORS.ask)));
-    ttlItems.add(Text("", style:TextStyle(fontSize:12.0)));
-    
+    if (offer.hasBid)
+      ttlItems.add(
+          Text("BID", style: TextStyle(fontSize: 14.0, color: COLORS.bid)));
+    if (offer.hasAsk)
+      ttlItems.add(
+          Text("ASK", style: TextStyle(fontSize: 14.0, color: COLORS.ask)));
+    ttlItems.add(Text("", style: TextStyle(fontSize: 12.0)));
+
     Widget ttl = Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children:ttlItems
-    );
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: ttlItems);
 
     final children = [dt, ttl];
 
@@ -149,15 +155,13 @@ class OfferHelper {
       children.add(WIDGETS.bidAsk("price", bid.priceStr, ask.priceStr));
       children.add(WIDGETS.bidAsk("yield", bid.yieldldStr, ask.yieldldStr));
       children.add(WIDGETS.bidAsk("spread", bid.spreadStr, ask.spreadStr));
-    }
-    else if (offer.hasBid) {
+    } else if (offer.hasBid) {
       children.add(WIDGETS.bid("qty", bid.qtyStr));
       children.add(WIDGETS.bid("min", bid.minQtyStr));
       children.add(WIDGETS.bid("price", bid.priceStr));
       children.add(WIDGETS.bid("yield", bid.yieldldStr));
       children.add(WIDGETS.bid("spread", bid.spreadStr));
-    }
-    else if (offer.hasAsk) {
+    } else if (offer.hasAsk) {
       children.add(WIDGETS.ask("qty", ask.qtyStr));
       children.add(WIDGETS.ask("min", ask.minQtyStr));
       children.add(WIDGETS.ask("price", ask.priceStr));
@@ -166,9 +170,8 @@ class OfferHelper {
     }
 
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: children
-    );
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: children);
   }
 }

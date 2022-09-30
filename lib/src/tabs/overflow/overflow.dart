@@ -12,9 +12,14 @@ class OverflowTab extends StatefulWidget {
   static const title = 'Orders';
   final Function parentAction;
   final int prevTab;
-  const OverflowTab({Key key, this.androidDrawer, this.parentAction, this.prevTab}) : super(key: key);
+  const OverflowTab(
+      {Key? key,
+      this.androidDrawer,
+      required this.parentAction,
+      required this.prevTab})
+      : super(key: key);
 
-  final Widget androidDrawer;
+  final Widget? androidDrawer;
 
   @override
   _OverflowTabState createState() => _OverflowTabState();
@@ -22,13 +27,12 @@ class OverflowTab extends StatefulWidget {
 
 class _OverflowTabState extends State<OverflowTab> {
 //  bool _show = false;
-  final List<Object> orders = List();
+  final List<Object> orders = [];
   final _androidRefreshKey = GlobalKey<RefreshIndicatorState>();
 
   @override
   void initState() {
-      setState(() {
-      });
+    setState(() {});
     super.initState();
   }
 
@@ -62,12 +66,13 @@ class _OverflowTabState extends State<OverflowTab> {
         actions: [
           IconButton(
             icon: Icon(Icons.refresh),
-            onPressed: () async => await _androidRefreshKey.currentState.show(),
+            onPressed: () async =>
+                await _androidRefreshKey.currentState!.show(),
           ),
           IconButton(
             icon: Icon(Icons.search),
             onPressed: () {
-               //TMAlert.alert(context, 'title', 'message');
+              //TMAlert.alert(context, 'title', 'message');
             },
           ),
         ],
@@ -78,109 +83,92 @@ class _OverflowTabState extends State<OverflowTab> {
   }
 
   Widget _buildIos(BuildContext context) {
-    return Scaffold( body: Builder(
+    return Scaffold(
+        body: Builder(
       builder: (context) => Align(
-            alignment: Alignment.bottomRight,
-            child: buildChild(context),
-          ),
+        alignment: Alignment.bottomRight,
+        child: buildChild(context),
+      ),
     ));
   }
 
   Widget buildChild(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.transparent,
-      body: SingleChildScrollView(
-        child: Container(
-          height: MediaQuery.of(context).size.height,
-          child: Stack(
-            children: <Widget>[
-              Positioned(
-                bottom: 10,
-                left: 10,
-                child: buildOptions(context)
-              )
-            ]
-          )
-        )
-      )
-    );
+        backgroundColor: Colors.transparent,
+        body: SingleChildScrollView(
+            child: Container(
+                height: MediaQuery.of(context).size.height,
+                child: Stack(children: <Widget>[
+                  Positioned(bottom: 10, left: 10, child: buildOptions(context))
+                ]))));
   }
 
   Widget buildOptions(BuildContext context) {
     final List<CupertinoActionSheetAction> actions = [
       CupertinoActionSheetAction(
-        child: Text('Logout'),
-        isDestructiveAction: true,
-        onPressed: () => tryLogout(context)),
-
+          child: Text('Logout'),
+          isDestructiveAction: true,
+          onPressed: () => tryLogout(context)),
       CupertinoActionSheetAction(
-        child: Text('Screen #6 - TODO'),
-        onPressed: () {}),
-
+          child: Text('Screen #6 - TODO'), onPressed: () {}),
       CupertinoActionSheetAction(
-        child: Text('Cancel'),
-        onPressed: () {
-          widget.parentAction(widget.prevTab);
-        }),
+          child: Text('Cancel'),
+          onPressed: () {
+            widget.parentAction(widget.prevTab);
+          }),
     ];
 
-    return CupertinoActionSheet(
-      title: Text("More..."),
-      actions: actions
-    );
+    return CupertinoActionSheet(title: Text("More..."), actions: actions);
   }
 
   Widget buildChild2(BuildContext context) {
     return CupertinoActionSheet(
-                        title: const Text('Choose frankly 😊'),
-                        message: const Text(
-                            'Your options are '),
-                        actions: <Widget>[
-                          CupertinoActionSheetAction(
-                            child: const Text('Logout'),
-                            onPressed: () => tryLogout(context),
-                          ),
-                          CupertinoActionSheetAction(
-                            child: const Text('🙋 No'),
-                            onPressed: () {
-                              Navigator.pop(context, '🙋 No');
-                            },
-                          ),
-                          CupertinoActionSheetAction(
-                            child: const Text("🙋 Can't say"),
-                            onPressed: () {
-                              Navigator.pop(context, "🙋 Can't say");
-                            },
-                          ),
-                          CupertinoActionSheetAction(
-                            child: const Text("🙋 Decide in next post"),
-                            onPressed: () {
-                              Navigator.pop(context, "🙋 Decide in next post");
-                            },
-                          ),
-                        ],
-                        cancelButton: CupertinoActionSheetAction(
-                          child: const Text('Cancel'),
-                          isDefaultAction: true,
-                          onPressed: () {
-                            widget.parentAction(widget.prevTab);
-                          },
-                        ));
+        title: const Text('Choose frankly 😊'),
+        message: const Text('Your options are '),
+        actions: <Widget>[
+          CupertinoActionSheetAction(
+            child: const Text('Logout'),
+            onPressed: () => tryLogout(context),
+          ),
+          CupertinoActionSheetAction(
+            child: const Text('🙋 No'),
+            onPressed: () {
+              Navigator.pop(context, '🙋 No');
+            },
+          ),
+          CupertinoActionSheetAction(
+            child: const Text("🙋 Can't say"),
+            onPressed: () {
+              Navigator.pop(context, "🙋 Can't say");
+            },
+          ),
+          CupertinoActionSheetAction(
+            child: const Text("🙋 Decide in next post"),
+            onPressed: () {
+              Navigator.pop(context, "🙋 Decide in next post");
+            },
+          ),
+        ],
+        cancelButton: CupertinoActionSheetAction(
+          child: const Text('Cancel'),
+          isDefaultAction: true,
+          onPressed: () {
+            widget.parentAction(widget.prevTab);
+          },
+        ));
   }
 
   tryLogout(BuildContext context) {
-
     TMAlert.confirmDialog(context, "Logout", "Confirm Logout", ["OK", "Cancel"],
-                            (action) {
-                              if (action == "OK") {
-                                  Api.logout(context, (_) {
-                                RestartWidget.restartApp(context);
-                              });
-
-                              }
-                            });
-
+        (action) {
+      if (action == "OK") {
+        Api.logout(context, (_) {
+          RestartWidget.restartApp(context);
+        });
+      }
+    });
   }
+
   @override
   Widget build(context) {
     return PlatformWidget(

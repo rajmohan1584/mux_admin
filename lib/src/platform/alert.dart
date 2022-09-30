@@ -54,8 +54,8 @@ class TimedAlert extends StatefulWidget {
 }
 
 class _TimedAlertState extends State<TimedAlert> {
-  Timer _timer;
-  int secondsRemaining;
+  Timer? _timer;
+  int? secondsRemaining;
 
   @override
   void initState() {
@@ -72,7 +72,7 @@ class _TimedAlertState extends State<TimedAlert> {
   }
 
   startTimer() {
-    if (_timer != null && _timer.isActive) {
+    if (_timer != null && _timer!.isActive) {
       print("startTimer - timer already active");
       return;
     }
@@ -84,8 +84,8 @@ class _TimedAlertState extends State<TimedAlert> {
 
   onTimer(timer) {
     setState(() {
-      secondsRemaining--;
-      if (secondsRemaining <= 0) {
+      secondsRemaining = secondsRemaining! - 1;
+      if (secondsRemaining! <= 0) {
         Navigator.of(context, rootNavigator: true).pop("OK");
         widget._handler("OK");
       }
@@ -96,7 +96,7 @@ class _TimedAlertState extends State<TimedAlert> {
   stopTimer() {
     if (_timer != null) {
       print("Timer Stopped");
-      _timer.cancel();
+      _timer!.cancel();
     }
   }
 
@@ -215,7 +215,8 @@ class TMAlert {
     });
     Widget alert = Platform.isIOS
         ? _buildConfirmSheetIOS(context, title, content, actions, handler)
-        : _buildConfirmAndroid(context, title, content, actionsText, handler);
+        : _buildConfirmAndroid(
+            context, title, content, actionsText as List<String>, handler);
 
     Platform.isIOS
         ? showCupertinoModalPopup(

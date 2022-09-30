@@ -3,25 +3,25 @@ import 'package:mux_admin/src/utils/json.dart';
 import 'package:mux_admin/src/utils/format.dart';
 
 class BookSide {
-  bool _acceptMoreQuantity;
-  int _availableQuantity;
-  int _calcStatus;
-  int _minQuantity;
-  double _price;
-  int _quantity;
-  int _spread;
-  bool _tradable;
-  double _yield;
-  int _requestId;
-  String _type;
-  String _requestType;
-  String _actorId;
-  String _requestXref;
-  bool _crossed;
-  String _contra;
-  int _rating;
-  String _indication;
-  DateTime _created;
+  bool _acceptMoreQuantity = false;
+  int _availableQuantity = 0;
+  int _calcStatus = 0;
+  int _minQuantity = 0;
+  double _price = 0;
+  int _quantity = 0;
+  int _spread = 0;
+  bool _tradable = false;
+  double _yield = 0;
+  int _requestId = 0;
+  String _type = "";
+  String _requestType = "";
+  String _actorId = "";
+  String _requestXref = "";
+  bool _crossed = false;
+  String _contra = "";
+  int _rating = 0;
+  String _indication = "";
+  DateTime _created = DateTime.now();
 
   bool get acceptMoreQuantity => _acceptMoreQuantity;
   int get availableQuantity => _availableQuantity;
@@ -56,25 +56,25 @@ class BookSide {
   String get createdDateStr => FMT.date(_created);
   String get createdTimeStr => FMT.time(_created);
   String get createdDateShortStr => FMT.shortDate(_created);
-  
+
   static BookSide fromJson(j) {
     BookSide side = BookSide();
     if (j == null) return side;
 
-    side._acceptMoreQuantity = JSON.parseBool(j, 'acceptMoreQuantity');
-    side._tradable = JSON.parseBool(j, 'tradable');
-    side._crossed = JSON.parseBool(j, 'crossed');
+    side._acceptMoreQuantity = JSON.parseBool(j, 'acceptMoreQuantity') ?? false;
+    side._tradable = JSON.parseBool(j, 'tradable') ?? false;
+    side._crossed = JSON.parseBool(j, 'crossed') ?? false;
 
-    side._availableQuantity = JSON.parseInt(j, 'availableQuantity');
-    side._calcStatus = JSON.parseInt(j, 'calcStatus');
-    side._minQuantity = JSON.parseInt(j, 'minQuantity');
-    side._quantity = JSON.parseInt(j, 'quantity');
-    side._spread = JSON.parseInt(j, 'spread');
-    side._requestId = JSON.parseInt(j, 'requestId');
-    side._rating = JSON.parseInt(j, 'rating');
+    side._availableQuantity = JSON.parseInt(j, 'availableQuantity') ?? 0;
+    side._calcStatus = JSON.parseInt(j, 'calcStatus') ?? 0;
+    side._minQuantity = JSON.parseInt(j, 'minQuantity') ?? 0;
+    side._quantity = JSON.parseInt(j, 'quantity') ?? 0;
+    side._spread = JSON.parseInt(j, 'spread') ?? 0;
+    side._requestId = JSON.parseInt(j, 'requestId') ?? 0;
+    side._rating = JSON.parseInt(j, 'rating') ?? 0;
 
-    side._price = JSON.parseDouble(j, 'price');
-    side._yield = JSON.parseDouble(j, 'yield');
+    side._price = JSON.parseDouble(j, 'price') ?? 0;
+    side._yield = JSON.parseDouble(j, 'yield') ?? 0;
 
     side._type = JSON.parseString(j, 'type');
     side._requestType = JSON.parseString(j, 'requestType');
@@ -82,31 +82,31 @@ class BookSide {
     side._requestXref = JSON.parseString(j, 'requestXref');
     side._contra = JSON.parseString(j, 'contra');
     side._indication = JSON.parseString(j, 'indication');
-    side._created = JSON.parseDate(j, 'created');
+    side._created = JSON.parseDate(j, 'created') ?? DateTime.now();
 
     return side;
   }
 
   copyFrom(BookSide from) {
-     _acceptMoreQuantity = from._acceptMoreQuantity;
-     _availableQuantity = from._availableQuantity;
-     _calcStatus = from._calcStatus;
-     _minQuantity = from._minQuantity;
-     _price = from._price;
-     _quantity = from._quantity;
-     _spread = from._spread;
-     _tradable = from._tradable;
-     _yield = from._yield;
-     _requestId = from._requestId;
-     _type = from._type;
-     _requestType = from._requestType;
-     _actorId = from._actorId;
-     _requestXref = from._requestXref;
-     _crossed = from._crossed;
-     _contra = from._contra;
-     _rating = from._rating;
-     _indication = from._indication;
-     _created = from._created;
+    _acceptMoreQuantity = from._acceptMoreQuantity;
+    _availableQuantity = from._availableQuantity;
+    _calcStatus = from._calcStatus;
+    _minQuantity = from._minQuantity;
+    _price = from._price;
+    _quantity = from._quantity;
+    _spread = from._spread;
+    _tradable = from._tradable;
+    _yield = from._yield;
+    _requestId = from._requestId;
+    _type = from._type;
+    _requestType = from._requestType;
+    _actorId = from._actorId;
+    _requestXref = from._requestXref;
+    _crossed = from._crossed;
+    _contra = from._contra;
+    _rating = from._rating;
+    _indication = from._indication;
+    _created = from._created;
   }
 
   static List<BookSide> loadBookSides(j, String side) {
@@ -117,14 +117,13 @@ class BookSide {
 
     if (jsides == null || jsides.length <= 0) return sides;
 
-    for (var i=0; i<jsides.length; i++) {
+    for (var i = 0; i < jsides.length; i++) {
       final side = BookSide.fromJson(jsides[i]);
       sides.add(side);
     }
 
     return sides;
   }
-
 }
 
 class Book {
@@ -134,8 +133,13 @@ class Book {
   BookSide get bidBook => _bidBook;
   BookSide get askBook => _askBook;
 
-  void copyBid(BookSide from) { _bidBook.copyFrom(from);}
-  void copyAsk(BookSide from) { _askBook.copyFrom(from);}
+  void copyBid(BookSide from) {
+    _bidBook.copyFrom(from);
+  }
+
+  void copyAsk(BookSide from) {
+    _askBook.copyFrom(from);
+  }
 }
 
 class Books {
@@ -160,7 +164,7 @@ class Books {
       }
       if (i < askBook.length) {
         b.copyAsk(askBook[i]);
-      } 
+      }
       // if (o.ask_firmTime) o.firmTime = formatFirmTime(o.ask_firmTime);
       _books.add(b);
       i++;

@@ -17,7 +17,6 @@ class _HomeTabContent extends State<HomeTabContent> {
   @override
   Widget build(BuildContext context) {
     // TO DO: implement build
-    return null;
+    return Text('TODO');
   }
-  
 }

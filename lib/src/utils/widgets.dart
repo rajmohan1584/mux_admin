@@ -201,7 +201,7 @@ class WIDGETS {
         break;
     }
 
-    Color iconColor;
+    Color? iconColor;
     var qdarkMode = MediaQuery.of(context).platformBrightness;
 
     if (qdarkMode == Brightness.dark) {

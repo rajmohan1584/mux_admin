@@ -26,7 +26,7 @@ class _LoginScreen extends State<LoginScreen> {
   bool checked = false;
   bool bioShown = false;
 
-  String host;
+  late String host;
   String savedLoginId = '';
   String savedPassword = '';
   bool canFaceId = false;

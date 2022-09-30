@@ -7,14 +7,14 @@ class Clients {
   List<Client> get clients => _clients;
   int get length => _clients.length;
 
-  Client of(int index) {
+  Client? of(int index) {
     if (index >= _clients.length) return null;
     return _clients[index];
   }
 
   reload(j) {
     _clients.removeRange(0, _clients.length);
-    for(int i=0; i<j.length; i++) {
+    for (int i = 0; i < j.length; i++) {
       _clients.add(Client.fromJson(j[i]));
     }
     _clients.sort((a, b) => a.displayName.compareTo(b.displayName));
@@ -29,7 +29,7 @@ class Clients {
     });
   }
 
-  Client ofConnectionId(String connectionId) {
+  Client? ofConnectionId(String connectionId) {
     for (var client in _clients) {
       final conn = client.connection;
       if (conn != null && conn.connectionId == connectionId) {
@@ -40,13 +40,13 @@ class Clients {
     return null;
   }
 
-  Client ofName(String name) {
+  Client? ofName(String name) {
     for (var client in _clients) {
       if (client.displayName == name) {
         return client;
       }
     }
-    
+
     return null;
   }
 }
@@ -58,12 +58,12 @@ class Clients {
     "orgType": "Buyside"
 */
 
-class Client{
-  String _clientId;
-  String _displayName;
-  String _orgType;
+class Client {
+  String _clientId = "";
+  String _displayName = "";
+  String _orgType = "";
 
-  Connection _connection;
+  Connection _connection = Connection();
   bool _hasConnection = false;
 
   String get clientId => _clientId ?? 'Unk';
@@ -73,8 +73,10 @@ class Client{
   bool get hasConnection => _hasConnection;
   set connection(c) {
     _connection = c;
-    if (c == null) _hasConnection = false;
-    else _hasConnection = true;
+    if (c == null)
+      _hasConnection = false;
+    else
+      _hasConnection = true;
   }
 
   static Client fromJson(j) {
@@ -86,5 +88,3 @@ class Client{
     return client;
   }
 }
-
-

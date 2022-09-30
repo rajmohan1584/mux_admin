@@ -12,12 +12,17 @@ import 'package:mux_admin/src/tabs/clients/detail.dart';
 class ClientsTab extends StatefulWidget {
   static const title = 'Connections';
   static const androidIcon = Icon(Icons.music_note);
-  static const iosIcon = Image(image:AssetImage("assets/images/clients.png"));//Icon(CupertinoIcons.music_note);
-  static const iosIconActive = Image(image:AssetImage("assets/images/clients-filled.png"), color: Colors.blue,);//Icon(CupertinoIcons.music_note);
+  static const iosIcon = Image(
+      image: AssetImage(
+          "assets/images/clients.png")); //Icon(CupertinoIcons.music_note);
+  static const iosIconActive = Image(
+    image: AssetImage("assets/images/clients-filled.png"),
+    color: Colors.blue,
+  ); //Icon(CupertinoIcons.music_note);
 
-  const ClientsTab({Key key, this.androidDrawer}) : super(key: key);
+  const ClientsTab({Key? key, this.androidDrawer}) : super(key: key);
 
-  final Widget androidDrawer;
+  final Widget? androidDrawer;
 
   @override
   _ClientsTabState createState() => _ClientsTabState();
@@ -57,25 +62,24 @@ class _ClientsTabState extends State<ClientsTab> {
   }
 
   Widget _listBuilder(BuildContext context, int index) {
-    if (index >= clients.length) return null;
+    if (index >= clients.length) return Text("null");
     Client client = clients.of(index);
-    
+
     return SafeArea(
         top: false,
         bottom: false,
         child: GestureDetector(
-          onTap: () {
-            Connection conn = client.connection;
-            String id = conn==null ? null : conn.connectionId;
-            Navigator.of(context).push<void>(
-              MaterialPageRoute(
-                builder: (context) => ClientDetailTab(client, id)
-              )
-            ).then((value) => onReloadData());
-          },
-          child: ClientsHelper.buildClientSlider(context, client, setLoading, onReloadData) //_buildCard(context)
-        )
-      );
+            onTap: () {
+              Connection conn = client.connection;
+              String id = conn.connectionId;
+              Navigator.of(context)
+                  .push<void>(MaterialPageRoute(
+                      builder: (context) => ClientDetailTab(client, id)))
+                  .then((value) => onReloadData());
+            },
+            child: ClientsHelper.buildClientSlider(
+                context, client, setLoading, onReloadData) //_buildCard(context)
+            ));
   }
 
   // ===========================================================================
@@ -96,12 +100,13 @@ class _ClientsTabState extends State<ClientsTab> {
         actions: [
           IconButton(
             icon: Icon(Icons.refresh),
-            onPressed: () async => await _androidRefreshKey.currentState.show(),
+            onPressed: () async =>
+                await _androidRefreshKey.currentState!.show(),
           ),
           IconButton(
             icon: Icon(Icons.search),
             onPressed: () {
-               //TMAlert.alert(context, 'title', 'message');
+              //TMAlert.alert(context, 'title', 'message');
             },
           ),
         ],
@@ -119,15 +124,14 @@ class _ClientsTabState extends State<ClientsTab> {
   }
 
   Widget _buildIos(BuildContext context) {
-    Widget trailing = loading ?
-      TMActivityIndicator() :
-      CupertinoButton(
-          padding: EdgeInsets.zero,
-          child: Icon(CupertinoIcons.refresh),
-          onPressed: () {
+    Widget trailing = loading
+        ? TMActivityIndicator()
+        : CupertinoButton(
+            padding: EdgeInsets.zero,
+            child: Icon(CupertinoIcons.refresh),
+            onPressed: () {
               onReloadData();
-          }
-      );
+            });
 
     return CustomScrollView(
       slivers: [

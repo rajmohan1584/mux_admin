@@ -35,7 +35,7 @@ class _ClientDetailTabState extends State<ClientDetailTab> {
     super.initState();
   }
 
-  Future<void> onReloadData([String id]) async {
+  Future<void> onReloadData([String? id]) async {
     final connectionId = conn.connected ? conn.connectionId : id;
     if (connectionId == null) {
       setState(() => loading = false);
@@ -45,7 +45,7 @@ class _ClientDetailTabState extends State<ClientDetailTab> {
     setState(() => loading = true);
     Api.getConnection(connectionId).then((j) {
       setState(() {
-        if(j != null) conn.updateFromJson(j);
+        if (j != null) conn.updateFromJson(j);
         loading = false;
       });
     });
@@ -60,7 +60,7 @@ class _ClientDetailTabState extends State<ClientDetailTab> {
 
   onConnect(j) {
     setState(() {
-      if(j != null) conn.updateFromJson(j);
+      if (j != null) conn.updateFromJson(j);
       onReloadData();
     });
   }
@@ -73,10 +73,10 @@ class _ClientDetailTabState extends State<ClientDetailTab> {
     final children = <Widget>[];
 
     final name = widget._client.displayName;
-    
+
     Widget xImg = IMAGES.getClientLogo(name, true);
     children.add(xImg);
-    
+
     Widget xName = WIDGETS.detailPageTitle(name);
     children.add(xName);
 
@@ -84,58 +84,59 @@ class _ClientDetailTabState extends State<ClientDetailTab> {
 
     final top = Column(children: children);
     return Stack(
-        fit: StackFit.expand,
-        children: <Widget>[
-          Positioned(
-            top: 100,
-            width: SCREEN.width,
-            child: Center(
-              child: top,
-            ),
+      fit: StackFit.expand,
+      children: <Widget>[
+        Positioned(
+          top: 100,
+          width: SCREEN.width,
+          child: Center(
+            child: top,
           ),
-          Positioned(
-            top: 200,
-            width: SCREEN.width,
-            child: details(context)
+        ),
+        Positioned(top: 200, width: SCREEN.width, child: details(context)),
+        Positioned(
+          bottom: 100,
+          width: SCREEN.width,
+          child: Center(
+            child: actions(context),
           ),
-          Positioned(
-            bottom: 100,
-            width: SCREEN.width,
-            child: Center(
-              child: actions(context),
-            ),
-          )
-        ],
-      );
+        )
+      ],
+    );
   }
 
   Widget connectRoww(context) {
     if (conn.connectionId != null) {
-      return TMButton(context, "Disconnect", "danger", ()=>disconnect());
+      return TMButton(context, "Disconnect", "danger", () => disconnect());
     }
-    return TMButton(context, "Connect", "primary", ()=>connect());
+    return TMButton(context, "Connect", "primary", () => connect());
   }
 
   Widget connectRow(context) {
     if (conn.connectionId != null) {
-      return TMIconButton(context, "disconnect.png", "Disconnect", COLORS.darkBackground['red'], ()=>disconnect());
+      return TMIconButton(context, "disconnect.png", "Disconnect",
+          COLORS.darkBackground['red']!, () => disconnect());
     }
-    return TMIconButton(context, "connect.png", "Connect", COLORS.darkBackground['blue'], ()=>connect());
+    return TMIconButton(context, "connect.png", "Connect",
+        COLORS.darkBackground['blue']!, () => connect());
   }
 
   connect() {
     Client client = widget._client;
-    ClientActions.connect(context, client.clientId, client.displayName, setLoading, onConnect);
+    ClientActions.connect(
+        context, client.clientId, client.displayName, setLoading, onConnect);
   }
 
   disconnect() {
     if (conn == null || !conn.connected) return;
-    ClientActions.disconnect(context, conn.connectionId, conn.displayName, setLoading, onDisconnect);
+    ClientActions.disconnect(
+        context, conn.connectionId, conn.displayName, setLoading, onDisconnect);
   }
 
   stop(context) {
     if (conn == null || !conn.connected) return;
-    ClientActions.stop(context, conn.connectionId, conn.displayName, setLoading, onReloadData);
+    ClientActions.stop(
+        context, conn.connectionId, conn.displayName, setLoading, onReloadData);
   }
 
   start() {
@@ -145,7 +146,8 @@ class _ClientDetailTabState extends State<ClientDetailTab> {
 
   pull(context) {
     if (conn == null || !conn.connected) return;
-    ClientActions.pull(context, conn.connectionId, conn.displayName, conn.active, setLoading, onReloadData);
+    ClientActions.pull(context, conn.connectionId, conn.displayName,
+        conn.active, setLoading, onReloadData);
   }
 
   send() {
@@ -157,19 +159,31 @@ class _ClientDetailTabState extends State<ClientDetailTab> {
     bool connected = conn.connected;
     bool active = conn.active;
 
-    final red = COLORS.darkBackground['red'];
-    final blue = COLORS.darkBackground['blue'];
+    final red = COLORS.darkBackground['red']!;
+    final blue = COLORS.darkBackground['blue']!;
 
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: <Widget>[
-        conn.active ? 
-          TMIconButton(context, "stop_connection.png", "Stop", red, ()=>stop(context), disabled: !connected,) :
-          TMIconButton(context, "start_connection.png", "Start", blue, ()=>start(), disabled: !connected),
-        TMIconButton(context, "pull_connection.png", "Pull", red, ()=>pull(context), disabled: !connected),
-        TMIconButton(context, "send_connection.png", "Send", blue, ()=>send(), disabled: !connected || !active)
-      ]
-    );
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: <Widget>[
+          conn.active
+              ? TMIconButton(
+                  context,
+                  "stop_connection.png",
+                  "Stop",
+                  red,
+                  () => stop(context),
+                  disabled: !connected,
+                )
+              : TMIconButton(
+                  context, "start_connection.png", "Start", blue, () => start(),
+                  disabled: !connected),
+          TMIconButton(
+              context, "pull_connection.png", "Pull", red, () => pull(context),
+              disabled: !connected),
+          TMIconButton(
+              context, "send_connection.png", "Send", blue, () => send(),
+              disabled: !connected || !active)
+        ]);
 
     /*
     return Row(
@@ -189,32 +203,29 @@ class _ClientDetailTabState extends State<ClientDetailTab> {
     final children = <Widget>[];
 
 //    children.add(WIDGETS.hl());
-    children.add(SizedBox(height:20));
+    children.add(SizedBox(height: 20));
     children.add(connectRow(context));
-    children.add(SizedBox(height:20));
+    children.add(SizedBox(height: 20));
     children.add(actionRow(context));
 
-    return Column(
-      children: children
-    );
+    return Column(children: children);
   }
 
   Widget detailRow(BuildContext context, String name, Widget valueWidget) {
     return Padding(
-      padding: const EdgeInsets.only(bottom:8.0),
-      child: Row(  
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.only(left:50.0),
-            child: Text(name),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(right:50.0),
-            child: valueWidget,
-          )
-        ]
-      ),
+      padding: const EdgeInsets.only(bottom: 8.0),
+      child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.only(left: 50.0),
+              child: Text(name),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(right: 50.0),
+              child: valueWidget,
+            )
+          ]),
     );
   }
 
@@ -232,7 +243,8 @@ class _ClientDetailTabState extends State<ClientDetailTab> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          detailRow(context, 'Status', WIDGETS.connStatus(context, conn.status)),
+          detailRow(
+              context, 'Status', WIDGETS.connStatus(context, conn.status)),
           detailRow(context, 'Active', Text(conn.activeStr)),
           detailRow(context, 'Connection ID', Text(conn.displayConnectionId)),
           detailRow(context, '', Text(time)),
@@ -244,7 +256,7 @@ class _ClientDetailTabState extends State<ClientDetailTab> {
       ),
     );
   }
-  
+
   Widget _buildAndroid(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('Detail')),
@@ -253,23 +265,21 @@ class _ClientDetailTabState extends State<ClientDetailTab> {
   }
 
   Widget _buildIos(BuildContext context) {
-    Widget trailing = loading ?
-      TMActivityIndicator() :
-      CupertinoButton(
-          padding: EdgeInsets.zero,
-          child: Icon(CupertinoIcons.refresh),
-          onPressed: () {
+    Widget trailing = loading
+        ? TMActivityIndicator()
+        : CupertinoButton(
+            padding: EdgeInsets.zero,
+            child: Icon(CupertinoIcons.refresh),
+            onPressed: () {
               onReloadData();
-          }
-      );
+            });
 
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar(
         middle: Text(widget._client.displayName),
         previousPageTitle: 'Clients',
         trailing: trailing,
-        
-        ),
+      ),
       child: _buildBody(),
     );
   }
@@ -282,4 +292,3 @@ class _ClientDetailTabState extends State<ClientDetailTab> {
     );
   }
 }
-

@@ -1,6 +1,5 @@
-
 class ERROR {
-  static String text(j) {
+  static String? text(j) {
     try {
       if (j != null && !(j.length > 0)) {
         final error = j['error'];

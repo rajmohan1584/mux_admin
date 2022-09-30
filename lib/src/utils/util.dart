@@ -2,43 +2,17 @@
 RegExp rxEntityId = RegExp(r'([TROQFS]{1,2}#)0*(\d+)');
 RegExp rxDisplayName = RegExp(r'(.*)\/[^/]+$');
 
-const bondTypes = [{
-    "abbr" : "Corp",
-    "code" : "C",
-    "desc" : "Corporate"
-  },{
-    "abbr" : "Muni",
-    "code" : "M",
-    "desc" : "Municipal"
-  },{
-    "abbr" : "Treasury",
-    "code" : "T",
-    "desc" : "Treasury"
-  },{
-    "abbr" : "Agency",
-    "code" : "A",
-    "desc" : "Agency"
-  },{
-    "abbr" : "CD",
-    "code" : "S",
-    "desc" : "Certificate of Deposit"
-  },{
-    "abbr" : "CP",
-    "code" : "E",
-    "desc" : "Commercial Paper"
-  },{
-    "abbr" : "CMO",
-    "code" : "O",
-    "desc" : "Collateralized Mortgage Obligation"
-  },{
-    "abbr" : "MBS",
-    "code" : "K",
-    "desc" : "Mortage Backed Securities"
-  },{
-    "abbr" : "Cash",
-    "code" : "\$",
-    "desc" : "Cash"
-  }]; 
+const bondTypes = [
+  {"abbr": "Corp", "code": "C", "desc": "Corporate"},
+  {"abbr": "Muni", "code": "M", "desc": "Municipal"},
+  {"abbr": "Treasury", "code": "T", "desc": "Treasury"},
+  {"abbr": "Agency", "code": "A", "desc": "Agency"},
+  {"abbr": "CD", "code": "S", "desc": "Certificate of Deposit"},
+  {"abbr": "CP", "code": "E", "desc": "Commercial Paper"},
+  {"abbr": "CMO", "code": "O", "desc": "Collateralized Mortgage Obligation"},
+  {"abbr": "MBS", "code": "K", "desc": "Mortage Backed Securities"},
+  {"abbr": "Cash", "code": "\$", "desc": "Cash"}
+];
 
 class UTIL {
   static String displayEntityId(String rawId) {
@@ -64,14 +38,14 @@ class UTIL {
         }
       }
     }
-    
+
     return securityName;
   }
 
-  static String bondTypeDesc(String bondType) {
+  static String? bondTypeDesc(String bondType) {
     final l = bondTypes.length;
 
-    for (var i=0; i<l; i++) {
+    for (var i = 0; i < l; i++) {
       final bt = bondTypes[i];
       if (bt['code'] == bondType) {
         return bt['abbr'];

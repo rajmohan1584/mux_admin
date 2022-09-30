@@ -12,23 +12,22 @@ class TradesTab extends StatefulWidget {
   static const title = 'Trades';
   static const androidIcon = Icon(Icons.music_note);
 
-  const TradesTab({Key key, this.androidDrawer}) : super(key: key);
+  const TradesTab({Key? key, this.androidDrawer}) : super(key: key);
 
-  final Widget androidDrawer;
+  final Widget? androidDrawer;
 
   @override
   _TradesTabState createState() => _TradesTabState();
 }
 
 class _TradesTabState extends State<TradesTab> {
-  final List<Trade> trades = List();
+  final List<Trade> trades = [];
   final _androidRefreshKey = GlobalKey<RefreshIndicatorState>();
   bool loading = true;
-  
+
   @override
   void initState() {
-    setState(() {
-    });
+    setState(() {});
     onReloadData();
     super.initState();
   }
@@ -38,7 +37,7 @@ class _TradesTabState extends State<TradesTab> {
     Api.searchTrades().then((j) {
       setState(() {
         trades.removeRange(0, trades.length);
-        for(int i=0; i<j.length; i++) {
+        for (int i = 0; i < j.length; i++) {
           trades.add(Trade.fromJson(j[i]));
         }
         loading = false;
@@ -46,25 +45,20 @@ class _TradesTabState extends State<TradesTab> {
     });
   }
 
-
   Widget _listBuilder(BuildContext context, int index) {
-    if (index >= trades.length) return null;
+    if (index >= trades.length) return Text('null');
     Trade trade = trades[index];
 
     return SafeArea(
         top: false,
         bottom: false,
         child: GestureDetector(
-          onTap: () {
-            Navigator.of(context).push<void>(
-              MaterialPageRoute(
-                builder: (context) => TradeDetailTab(trade)
-              )
-            );
-          },
-          child: TradeHelper.buildTrade(context, trade) //_buildCard(context)
-        )
-      );
+            onTap: () {
+              Navigator.of(context).push<void>(MaterialPageRoute(
+                  builder: (context) => TradeDetailTab(trade)));
+            },
+            child: TradeHelper.buildTrade(context, trade) //_buildCard(context)
+            ));
   }
 
   // ===========================================================================
@@ -85,12 +79,13 @@ class _TradesTabState extends State<TradesTab> {
         actions: [
           IconButton(
             icon: Icon(Icons.refresh),
-            onPressed: () async => await _androidRefreshKey.currentState.show(),
+            onPressed: () async =>
+                await _androidRefreshKey.currentState!.show(),
           ),
           IconButton(
             icon: Icon(Icons.search),
             onPressed: () {
-               //TMAlert.alert(context, 'title', 'message');
+              //TMAlert.alert(context, 'title', 'message');
             },
           ),
         ],
@@ -108,15 +103,14 @@ class _TradesTabState extends State<TradesTab> {
   }
 
   Widget _buildIos(BuildContext context) {
-    Widget trailing = loading ?
-      TMActivityIndicator() :
-      CupertinoButton(
-          padding: EdgeInsets.zero,
-          child: Icon(CupertinoIcons.refresh),
-          onPressed: () {
+    Widget trailing = loading
+        ? TMActivityIndicator()
+        : CupertinoButton(
+            padding: EdgeInsets.zero,
+            child: Icon(CupertinoIcons.refresh),
+            onPressed: () {
               onReloadData();
-          }
-      );
+            });
 
     return CustomScrollView(
       slivers: [

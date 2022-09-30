@@ -19,16 +19,16 @@ class OffersTab extends StatefulWidget {
     color: Colors.blue,
   ); //Icon(CupertinoIcons.music_note);
 
-  const OffersTab({Key key, this.androidDrawer}) : super(key: key);
+  const OffersTab({Key? key, this.androidDrawer}) : super(key: key);
 
-  final Widget androidDrawer;
+  final Widget? androidDrawer;
 
   @override
   _OffersTabState createState() => _OffersTabState();
 }
 
 class _OffersTabState extends State<OffersTab> {
-  final List<Object> offers = List<Object>();
+  final List<Object> offers = <Object>[];
   final _androidRefreshKey = GlobalKey<RefreshIndicatorState>();
   bool loading = true;
 
@@ -54,7 +54,7 @@ class _OffersTabState extends State<OffersTab> {
   }
 
   Widget _listBuilder(BuildContext context, int index) {
-    if (index >= offers.length) return null;
+    if (index >= offers.length) return Text('null');
     Offer offer = Offer.fromJson(offers[index]);
 
     return SafeArea(
@@ -116,7 +116,8 @@ class _OffersTabState extends State<OffersTab> {
         actions: [
           IconButton(
             icon: Icon(Icons.refresh),
-            onPressed: () async => await _androidRefreshKey.currentState.show(),
+            onPressed: () async =>
+                await _androidRefreshKey.currentState!.show(),
           ),
           IconButton(
             icon: Icon(Icons.search),
