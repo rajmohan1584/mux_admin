@@ -3,12 +3,12 @@ import 'package:mux_admin/src/utils/json.dart';
 import 'package:mux_admin/src/utils/format.dart';
 
 class MarketStats {
-  String _status;
-  int _offerCount;
-  int _requestCount;
-  int _securityCount;
-  int _tradableAskCount;
-  int _tradableBidCount;
+  String _status = "";
+  int _offerCount = 0;
+  int _requestCount = 0;
+  int _securityCount = 0;
+  int _tradableAskCount = 0;
+  int _tradableBidCount = 0;
 
   String get status => _status ?? 'Unk';
   int get offerCount => _offerCount;
@@ -35,25 +35,25 @@ class MarketStats {
       return;
     }
     _status = JSON.parseString(j, 'status');
-    _offerCount = JSON.parseInt(j, 'offerCount');
-    _requestCount = JSON.parseInt(j, 'requestCount');
-    _securityCount = JSON.parseInt(j, 'securityCount');
-    _tradableAskCount = JSON.parseInt(j, 'tradableAskCount');
-    _tradableBidCount = JSON.parseInt(j, 'tradableBidCount');
+    _offerCount = JSON.parseInt(j, 'offerCount') ?? -1;
+    _requestCount = JSON.parseInt(j, 'requestCount') ?? -1;
+    _securityCount = JSON.parseInt(j, 'securityCount') ?? -1;
+    _tradableAskCount = JSON.parseInt(j, 'tradableAskCount') ?? -1;
+    _tradableBidCount = JSON.parseInt(j, 'tradableBidCount') ?? -1;
   }
 }
 
 class ConnectionStats {
-  String _id;
-  String _name;
-  String _status;
-  int _requests;
-  int _sent;
-  int _matched;
-  int _pulled;
-  int _active;
-  HistoryChart _history;
-  
+  String _id = "";
+  String _name = "";
+  String _status = "";
+  int _requests = 0;
+  int _sent = 0;
+  int _matched = 0;
+  int _pulled = 0;
+  int _active = 0;
+  HistoryChart _history = HistoryChart();
+
   String get status => _status ?? 'Unk';
   String get name => _name ?? 'Unk';
   String get id => _id ?? 'Unk';
@@ -91,11 +91,11 @@ class ConnectionStats {
     cstats._name = JSON.parseString(j, 'name');
     cstats._id = JSON.parseString(j, 'id');
     cstats._status = JSON.parseString(j, 'status');
-    cstats._requests = JSON.parseInt(j, 'requests');
-    cstats._sent = JSON.parseInt(j, 'sent');
-    cstats._matched = JSON.parseInt(j, 'matched');
-    cstats._pulled = JSON.parseInt(j, 'pulled');
-    cstats._active = JSON.parseInt(j, 'active');
+    cstats._requests = JSON.parseInt(j, 'requests') ?? -1;
+    cstats._sent = JSON.parseInt(j, 'sent') ?? -1;
+    cstats._matched = JSON.parseInt(j, 'matched') ?? -1;
+    cstats._pulled = JSON.parseInt(j, 'pulled') ?? -1;
+    cstats._active = JSON.parseInt(j, 'active') ?? -1;
     cstats._history = HistoryChart.fromJson(j['history']);
     return cstats;
   }
@@ -103,7 +103,7 @@ class ConnectionStats {
 
 class Home {
   MarketStats _marketStats = MarketStats();
-  List<ConnectionStats> _connections = List<ConnectionStats>();
+  List<ConnectionStats> _connections = [];
 
   MarketStats get marketStats => _marketStats;
   List<ConnectionStats> get connections => _connections;
@@ -111,7 +111,7 @@ class Home {
   void updateFromJson(j) {
     _marketStats.updateFromJson(j['market']);
 
-    List<ConnectionStats> newConnections = List<ConnectionStats>();
+    List<ConnectionStats> newConnections = [];
     final jc = j['connections'];
     if (jc != null) {
       final l = jc.length;
@@ -122,13 +122,13 @@ class Home {
       }
     }
     _mergeConnections(_connections, newConnections);
-    _connections.sort((a,b) => a.name.compareTo(b.name));
+    _connections.sort((a, b) => a.name.compareTo(b.name));
   }
 
   void _mergeConnections(oldc, newc) {
     //oldc.forEach((oc) => oc.status = "Err");
     //newc.forEach((nc) => nc.status = "OK");
- 
+
     newc.forEach((nc) {
       var oc;
       if (oldc.length > 0) {
@@ -136,23 +136,22 @@ class Home {
         while (i < oldc.length) {
           oc = oldc[i];
           if (oc.id == nc.id) break;
-          i ++;
+          i++;
           oc = null;
         }
         //oc = oldc.firstWhere((c) => c != null && c.id == nc.id);
       }
       if (oc != null) {
         oc.copyFrom(nc);
-      }
-      else {
+      } else {
         // add
         oldc.add(nc);
-        oc = oldc[oldc.length-1];
+        oc = oldc[oldc.length - 1];
       }
- 
-     // const history = nc.history || {};
- 
-     //mergeHistory(oc, history);
+
+      // const history = nc.history || {};
+
+      //mergeHistory(oc, history);
     });
   }
 
@@ -160,7 +159,7 @@ class Home {
     Home home = Home();
     home._marketStats = MarketStats.fromJson(j['market']);
 
-    List<ConnectionStats> newConnections = List<ConnectionStats>();
+    List<ConnectionStats> newConnections = [];
     final jc = j['connections'];
     if (jc != null) {
       final l = jc.length;

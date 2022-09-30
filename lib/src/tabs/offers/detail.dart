@@ -89,7 +89,7 @@ class _OfferDetailTabState extends State<OfferDetailTab> {
     if (index >= connectionIds.length) return Text('null');
     final connectionId = connectionIds[index];
 
-    Client client = clients.ofConnectionId(connectionId);
+    Client? client = clients.ofConnectionId(connectionId);
     if (client == null) return Text('Bug');
 
     return SafeArea(

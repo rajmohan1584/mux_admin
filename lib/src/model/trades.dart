@@ -10,7 +10,7 @@ class Trades {
 
   reload(j) {
     _trades.removeRange(0, _trades.length);
-    for(int i=0; i<j.length; i++) {
+    for (int i = 0; i < j.length; i++) {
       _trades.add(Trade.fromJson(j[i]));
     }
   }
@@ -348,26 +348,26 @@ class Trades {
 }
 */
 
-class Trade{
-  String _tradeId;
-  String _displayTradeId;
-  DateTime _created;
-  String _side;
+class Trade {
+  String _tradeId = "";
+  String _displayTradeId = "";
+  DateTime _created = DateTime.now();
+  String _side = "";
 
-  String _cusip;
-  String _displayName;
-  Security _security;
+  String _cusip = "";
+  String _displayName = "";
+  Security _security = Security();
 
-  String _tradeDate;
-  String _settleDate;
+  String _tradeDate = "";
+  String _settleDate = "";
 
-  int _qty;
-  double _price;
-  double _yield;
-  int _spread;
+  int _qty = -1;
+  double _price = -1;
+  double _yield = -1;
+  int _spread = -1;
 
-  double _principal;
-  double _netMoney;
+  double _principal = -1;
+  double _netMoney = -1;
 
   //String _contraRequestType;
   //String _requestType;
@@ -407,7 +407,7 @@ class Trade{
     Trade trade = Trade();
     trade._tradeId = JSON.parseString(j, 'tradeId');
     trade._displayTradeId = UTIL.displayEntityId(trade._tradeId);
-    trade._created = JSON.parseDate(j, 'created');
+    trade._created = JSON.parseDate(j, 'created') ?? DateTime.now();
     trade._side = JSON.parseString(j, 'side');
 
     trade._cusip = JSON.parseString(j, 'cusip');
@@ -417,13 +417,13 @@ class Trade{
     trade._tradeDate = JSON.parseString(j, 'tradeDate');
     trade._settleDate = JSON.parseString(j, 'settlementDate');
 
-    trade._qty = JSON.parseInt(j, 'quantity');
-    trade._price = JSON.parseDouble(j, 'price');
-    trade._yield = JSON.parseDouble(j, 'yield');
-    trade._spread = JSON.parseInt(j, 'ypread');
+    trade._qty = JSON.parseInt(j, 'quantity') ?? -1;
+    trade._price = JSON.parseDouble(j, 'price') ?? -1;
+    trade._yield = JSON.parseDouble(j, 'yield') ?? -1;
+    trade._spread = JSON.parseInt(j, 'ypread') ?? -1;
 
-    trade._principal = JSON.parseDouble(j, 'principal');
-    trade._netMoney = JSON.parseDouble(j, 'netMoney');
+    trade._principal = JSON.parseDouble(j, 'principal') ?? -1;
+    trade._netMoney = JSON.parseDouble(j, 'netMoney') ?? -1;
 
     return trade;
   }

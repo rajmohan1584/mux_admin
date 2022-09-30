@@ -59,15 +59,15 @@ import 'package:mux_admin/src/utils/json.dart';
 import 'package:mux_admin/src/utils/util.dart';
 
 class Security {
-  String _cusip;
-  String _bondType;
-  String _displayName;
-  double _coupon;
-  DateTime _maturityDate;
+  String _cusip = "";
+  String _bondType = "";
+  String _displayName = "";
+  double _coupon = -1;
+  DateTime _maturityDate = DateTime.now();
 
-  String _displayInfo;
-  String _securityName;
-  String _bondTypeDesc;
+  String _displayInfo = "";
+  String _securityName = "";
+  String _bondTypeDesc = "";
 
   String get cusip => _cusip;
   String get bondType => _bondType;
@@ -81,35 +81,33 @@ class Security {
 
   String get couponStr => FMT.coupon(_coupon);
   String get maturityDateStr => FMT.maturityDate(_maturityDate);
-  
+
   static Security fromJson(j) {
     Security sec = Security();
 
     sec._cusip = JSON.parseString(j, 'cusip');
     sec._bondType = JSON.parseString(j, 'bondType');
     sec._displayName = JSON.parseString(j, 'displayName');
-    sec._coupon = JSON.parseDouble(j, 'coupon');
-    sec._maturityDate = JSON.parseDate(j, 'maturityDate');
+    sec._coupon = JSON.parseDouble(j, 'coupon') ?? -1;
+    sec._maturityDate = JSON.parseDate(j, 'maturityDate') ?? DateTime.now();
 
     if (sec.displayName == null) {
       // Special handling for Trades
-      if (j["securities"] !=null) {
+      if (j["securities"] != null) {
         final securities = j["securities"];
         if (securities != null) {
           final search = securities["SEARCH"];
           sec._displayName = JSON.parseString(search, 'displayName');
-          sec._coupon = JSON.parseDouble(search, 'coupon');
+          sec._coupon = JSON.parseDouble(search, 'coupon') ?? -1;
           //sec._maturityDate = JSON.parseTradeReportMaturityDate(search, 'maturityDate');
         }
       }
     }
 
     sec._securityName = UTIL.displayName2SecurityName(sec._displayName);
-    sec._bondTypeDesc = UTIL.bondTypeDesc(sec._bondType);
-    
+    sec._bondTypeDesc = UTIL.bondTypeDesc(sec._bondType) ?? "";
+
     sec._displayInfo = '${sec.couponStr} @ ${sec.maturityDateStr}';
     return sec;
   }
-
-
 }

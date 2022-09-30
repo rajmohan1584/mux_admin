@@ -63,7 +63,8 @@ class _ClientsTabState extends State<ClientsTab> {
 
   Widget _listBuilder(BuildContext context, int index) {
     if (index >= clients.length) return Text("null");
-    Client client = clients.of(index);
+    Client? client = clients.of(index);
+    if (client == null) return Text("client null");
 
     return SafeArea(
         top: false,

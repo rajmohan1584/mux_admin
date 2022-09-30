@@ -9,7 +9,7 @@ class Offers {
 
   reload(j) {
     _offers.removeRange(0, _offers.length);
-    for(int i=0; i<j.length; i++) {
+    for (int i = 0; i < j.length; i++) {
       _offers.add(Offer.fromJson(j[i]));
     }
   }
@@ -69,11 +69,11 @@ class Offers {
 */
 
 class OfferSide {
-  int _qty;
-  int _minQty;
-  double _price;
-  double _yield;
-  int _spread;
+  int _qty = -1;
+  int _minQty = -1;
+  double _price = -1;
+  double _yield = -1;
+  int _spread = -1;
 
   int get qty => _qty;
   int get minQty => _minQty;
@@ -90,37 +90,37 @@ class OfferSide {
   static OfferSide fromJson(j, side) {
     OfferSide offerSide = OfferSide();
 
-    offerSide._qty = JSON.parseInt(j, '${side}Quantity');
-    offerSide._minQty = JSON.parseInt(j, '${side}MinQuantity');
-    offerSide._price = JSON.parseDouble(j, '${side}Price');
-    offerSide._yield = JSON.parseDouble(j, '${side}Yield');
-    offerSide._spread = JSON.parseInt(j, '${side}Spread');
+    offerSide._qty = JSON.parseInt(j, '${side}Quantity') ?? -1;
+    offerSide._minQty = JSON.parseInt(j, '${side}MinQuantity') ?? -1;
+    offerSide._price = JSON.parseDouble(j, '${side}Price') ?? -1;
+    offerSide._yield = JSON.parseDouble(j, '${side}Yield') ?? -1;
+    offerSide._spread = JSON.parseInt(j, '${side}Spread') ?? -1;
 
     return offerSide;
   }
 }
 
-class Offer{
-  int _requestId;
+class Offer {
+  int _requestId = -1;
 
-  bool _hasAsk;
-  bool _hasBid;
+  bool _hasAsk = false;
+  bool _hasBid = false;
 
-  String _cusip;
-  String _displayName;
-  DateTime _received;
+  String _cusip = "";
+  String _displayName = "";
+  DateTime _received = DateTime.now();
 
-  Security _security;
+  Security _security = Security();
 
-  OfferSide _bid;
-  OfferSide _ask;
+  OfferSide _bid = OfferSide();
+  OfferSide _ask = OfferSide();
 
   int get requestId => _requestId;
   String get dispRequestId => FMT.requestId(_requestId);
 
   bool get hasAsk => _hasAsk;
   bool get hasBid => _hasBid;
-  
+
   String get cusip => _cusip;
   String get displayName => _displayName;
   DateTime get received => _received;
@@ -133,17 +133,17 @@ class Offer{
   String get receivedDateStr => FMT.date(_received);
   String get receivedTimeStr => FMT.time(_received);
   String get receivedDateShortStr => FMT.shortDate(_received);
-  
+
   static Offer fromJson(j) {
     Offer offer = Offer();
-    offer._requestId = JSON.parseInt(j, 'requestId');
+    offer._requestId = JSON.parseInt(j, 'requestId') ?? -1;
 
-    offer._hasAsk = JSON.parseBool(j, 'hasAsk');
-    offer._hasBid = JSON.parseBool(j, 'hasBid');
+    offer._hasAsk = JSON.parseBool(j, 'hasAsk') ?? false;
+    offer._hasBid = JSON.parseBool(j, 'hasBid') ?? false;
 
     offer._cusip = JSON.parseString(j, 'cusip');
     offer._displayName = JSON.parseString(j, 'displayName');
-    offer._received = JSON.parseDate(j, 'received');
+    offer._received = JSON.parseDate(j, 'received') ?? DateTime.now();
 
     offer._security = Security.fromJson(j);
 

@@ -1,15 +1,26 @@
 import 'dart:convert';
 
 class Session {
-  static String _loginId;
-  static String _actorId;
-  static String _displayName;
-  static String _cookie;
+  static String _loginId = "";
+  static String _actorId = "";
+  static String _displayName = "";
+  static String _cookie = "";
 
-  static String get loginId { return _loginId; }
-  static String get actorId { return _actorId; }
-  static String get displayName { return _displayName; }
-  static String get cookie { return _cookie; }
+  static String get loginId {
+    return _loginId;
+  }
+
+  static String get actorId {
+    return _actorId;
+  }
+
+  static String get displayName {
+    return _displayName;
+  }
+
+  static String get cookie {
+    return _cookie;
+  }
 
 /*  
   static String get rootUrl {
@@ -28,4 +39,3 @@ class Session {
     Session._cookie = 'TNBT_SESSION=$sessionId';
   }
 }
-

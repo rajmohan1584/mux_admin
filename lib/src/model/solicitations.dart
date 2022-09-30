@@ -503,29 +503,29 @@ import 'package:mux_admin/src/utils/util.dart';
 }
 */
 
-class Solicitation{
-  String _solId;
-  String _displaySolId;
-  DateTime _created;
-  String _side;
+class Solicitation {
+  String _solId = "";
+  String _displaySolId = "";
+  DateTime _created = DateTime.now();
+  String _side = "";
 
-  String _blotterStatus;
-  String _currentState;
+  String _blotterStatus = "";
+  String _currentState = "";
 
-  String _cusip;
-  String _bondType;
-  String _bondTypeDesc;
-  String _remoteSystem;
+  String _cusip = "";
+  String _bondType = "";
+  String _bondTypeDesc = "";
+  String _remoteSystem = "";
 
-  DateTime _tradeDate;
-  DateTime _settleDate;
+  DateTime _tradeDate = DateTime.now();
+  DateTime _settleDate = DateTime.now();
 
-  int _qty;
-  double _price;
-  double _yield;
-  int _spread;
+  int _qty = -1;
+  double _price = -1;
+  double _yield = -1;
+  int _spread = -1;
 
-  double _accruedInterest;
+  double _accruedInterest = -1;
 
   String get solId => _solId;
   String get displaySolId => _displaySolId;
@@ -562,29 +562,30 @@ class Solicitation{
     Solicitation sol = Solicitation();
     sol._solId = JSON.parseString(j, 'solId');
     sol._displaySolId = UTIL.displayEntityId(sol._solId);
-    sol._created = JSON.parseDate(j, 'created');
+    sol._created = JSON.parseDate(j, 'created') ?? DateTime.now();
     sol._side = JSON.parseString(j, 'side');
     sol._blotterStatus = JSON.parseString(j, 'blotterStatus');
-    if (sol._blotterStatus != null) sol._blotterStatus = sol._blotterStatus.toLowerCase();
+    if (sol._blotterStatus != null)
+      sol._blotterStatus = sol._blotterStatus.toLowerCase();
     sol._currentState = JSON.parseString(j, 'currentState');
 
     final solicitation = j['solicitation'];
     sol._cusip = JSON.parseString(solicitation, 'cusip');
     sol._bondType = JSON.parseString(solicitation, 'bondType');
     sol._remoteSystem = JSON.parseString(solicitation, 'remoteSystem');
-    sol._bondTypeDesc = UTIL.bondTypeDesc(sol._bondType);
+    sol._bondTypeDesc = UTIL.bondTypeDesc(sol._bondType) ?? "";
 
-    sol._tradeDate = JSON.parseDate(j, 'tradeDate');
-    sol._settleDate = JSON.parseDate(j, 'settlementDate');
+    sol._tradeDate = JSON.parseDate(j, 'tradeDate') ?? DateTime.now();
+    sol._settleDate = JSON.parseDate(j, 'settlementDate') ?? DateTime.now();
 
-    sol._qty = JSON.parseInt(solicitation, 'maxTotalExecutionQuantity');
-    sol._price = JSON.parseDouble(solicitation, 'executionPrice');
-    sol._yield = JSON.parseDouble(solicitation, 'executionYield');
-    sol._spread = JSON.parseInt(solicitation, 'executionSpread');
+    sol._qty = JSON.parseInt(solicitation, 'maxTotalExecutionQuantity') ?? -1;
+    sol._price = JSON.parseDouble(solicitation, 'executionPrice') ?? -1;
+    sol._yield = JSON.parseDouble(solicitation, 'executionYield') ?? -1;
+    sol._spread = JSON.parseInt(solicitation, 'executionSpread') ?? -1;
 
-    sol._accruedInterest = JSON.parseDouble(solicitation, 'accruedInterest');
+    sol._accruedInterest =
+        JSON.parseDouble(solicitation, 'accruedInterest') ?? -1;
 
     return sol;
   }
-
 }

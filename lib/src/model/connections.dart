@@ -8,22 +8,22 @@ class Connections {
 
   reload(j) {
     _connections.removeRange(0, _connections.length);
-    for(int i=0; i<j.length; i++) {
+    for (int i = 0; i < j.length; i++) {
       _connections.add(Connection.fromJson(j[i]));
     }
   }
 
-  Connection ofId(id) {
+  Connection? ofId(id) {
     final l = _connections.length;
-    for (int i=0; i<l; i++) {
+    for (int i = 0; i < l; i++) {
       if (_connections[i].connectionId == id) return _connections[i];
     }
     return null;
   }
 
-  Connection ofName(name) {
+  Connection? ofName(name) {
     final l = _connections.length;
-    for (int i=0; i<l; i++) {
+    for (int i = 0; i < l; i++) {
       if (_connections[i].displayName == name) return _connections[i];
     }
     return null;
@@ -48,17 +48,17 @@ class Connections {
     "displayName": "Rockefeller"
 */
 
-class Connection{
-  String _connectionId;
-  String _clusterId;
-  String _displayName;
-  String _status;
+class Connection {
+  String _connectionId = "";
+  String _clusterId = "";
+  String _displayName = "";
+  String _status = "";
   String _tcpAddress = '--';
-  String _uriHostname;
-  int _socketNo;
-  bool _active;
-  DateTime _started;
-  DateTime _stopped;
+  String _uriHostname = "";
+  int _socketNo = 0;
+  bool _active = false;
+  DateTime _started = DateTime.now();
+  DateTime _stopped = DateTime.now();
 
   String get connectionId => _connectionId;
   String get displayConnectionId => _connectionId ?? "Not Connected";
@@ -73,12 +73,12 @@ class Connection{
   bool get active => _active ?? false;
   String get activeStr => FMT.yesNo(_active);
 
-  DateTime get started => _started;  
+  DateTime get started => _started;
   String get startedStr => FMT.date(_started);
   String get startedTimeStr => FMT.time(_started);
   String get startedDateShortStr => FMT.shortDate(_started);
 
-  DateTime get stopped => _stopped;  
+  DateTime get stopped => _stopped;
   String get stoppedStr => FMT.date(_stopped);
   String get stoppedTimeStr => FMT.time(_stopped);
   String get stoppedDateShortStr => FMT.shortDate(_stopped);
@@ -92,15 +92,14 @@ class Connection{
   updateFromJson(j) {
     _connectionId = JSON.parseString(j, 'connectionId');
     _displayName = JSON.parseString(j, 'displayName');
-    if (_displayName == null) 
-      _displayName = JSON.parseString(j, 'dc');
+    if (_displayName == null) _displayName = JSON.parseString(j, 'dc');
     _clusterId = JSON.parseString(j, 'clusterId');
     _status = JSON.parseString(j, 'status');
-    _active = JSON.parseBool(j, 'active');
+    _active = JSON.parseBool(j, 'active') ?? false;
     _tcpAddress = JSON.parseString(j, 'tcpAddress');
     _uriHostname = JSON.parseString(j, 'uriHostname');
-    _socketNo = JSON.parseInt(j, 'socketNo');
-    _started= JSON.parseDate(j, 'started');
-    _stopped= JSON.parseDate(j, 'stopped');
+    _socketNo = JSON.parseInt(j, 'socketNo') ?? -1;
+    _started = JSON.parseDate(j, 'started') ?? DateTime.now();
+    _stopped = JSON.parseDate(j, 'stopped') ?? DateTime.now();
   }
 }

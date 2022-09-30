@@ -10,7 +10,7 @@ class Orders {
 
   reload(j) {
     _orders.removeRange(0, _orders.length);
-    for(int i=0; i<j.length; i++) {
+    for (int i = 0; i < j.length; i++) {
       _orders.add(Order.fromJson(j[i]));
     }
   }
@@ -22,22 +22,22 @@ class Orders {
     "orgType": "Buyside"
 */
 
-class Order{
-  String _orderId;
-  String _dispOrderId;
-  String _cusip;
-  String _blotterStatus;
-  String _side;
-  String _tif;
-  double _price;
-  double _yield;
-  int _openQty;
-  int _minQty;
-  int _filledQty;
+class Order {
+  String _orderId = "";
+  String _dispOrderId = "";
+  String _cusip = "";
+  String _blotterStatus = "";
+  String _side = "";
+  String _tif = "";
+  double _price = 1;
+  double _yield = -1;
+  int _openQty = -1;
+  int _minQty = -1;
+  int _filledQty = -1;
 
-  Security _security;
+  Security _security = Security();
 
-  DateTime _updated;
+  DateTime _updated = DateTime.now();
 
   String get orderId => _orderId;
   String get dispOrderId => _dispOrderId;
@@ -74,12 +74,12 @@ class Order{
     order._blotterStatus = JSON.parseString(j, 'blotterStatus');
     order._side = JSON.parseString(j, 'side');
     order._tif = JSON.parseString(j, 'timeInForce');
-    order._price = JSON.parseDouble(j, 'price');
-    order._yield = JSON.parseDouble(j, 'yield');
-    order._openQty = JSON.parseInt(j, 'openQty');
-    order._minQty = JSON.parseInt(j, 'minQty');
-    order._filledQty = JSON.parseInt(j, 'filledQty');
-    order._updated = JSON.parseDate(j, 'updated');
+    order._price = JSON.parseDouble(j, 'price') ?? -1;
+    order._yield = JSON.parseDouble(j, 'yield') ?? -1;
+    order._openQty = JSON.parseInt(j, 'openQty') ?? -1;
+    order._minQty = JSON.parseInt(j, 'minQty') ?? -1;
+    order._filledQty = JSON.parseInt(j, 'filledQty') ?? -1;
+    order._updated = JSON.parseDate(j, 'updated') ?? DateTime.now();
 
     order._security = Security.fromJson(j['securityInfo']);
 
