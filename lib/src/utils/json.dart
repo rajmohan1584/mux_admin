@@ -30,7 +30,7 @@ class JSON {
 
   static String parseString(j, f) {
     final jv = j[f] ?? null;
-    if (jv == null) return jv;
+    if (jv == null) return ""; //jv;
 
     if (jv.runtimeType == String) return jv;
     return "$jv";

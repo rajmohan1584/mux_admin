@@ -71,12 +71,14 @@ class _ClientsTabState extends State<ClientsTab> {
         bottom: false,
         child: GestureDetector(
             onTap: () {
-              Connection conn = client.connection;
-              String id = conn.connectionId;
-              Navigator.of(context)
-                  .push<void>(MaterialPageRoute(
-                      builder: (context) => ClientDetailTab(client, id)))
-                  .then((value) => onReloadData());
+              Connection? conn = client.connection;
+              if (conn != null) {
+                String id = conn.connectionId;
+                Navigator.of(context)
+                    .push<void>(MaterialPageRoute(
+                        builder: (context) => ClientDetailTab(client, id)))
+                    .then((value) => onReloadData());
+              }
             },
             child: ClientsHelper.buildClientSlider(
                 context, client, setLoading, onReloadData) //_buildCard(context)
@@ -147,7 +149,8 @@ class _ClientsTabState extends State<ClientsTab> {
           sliver: SliverPadding(
             padding: EdgeInsets.symmetric(vertical: 12),
             sliver: SliverList(
-              delegate: SliverChildBuilderDelegate(_listBuilder),
+              delegate: SliverChildBuilderDelegate(_listBuilder,
+                  childCount: clients.length),
             ),
           ),
         ),

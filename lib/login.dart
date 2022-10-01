@@ -48,6 +48,9 @@ class _LoginScreen extends State<LoginScreen> {
 
   @override
   initState() {
+    loginIdCtlr.text = "rbcmmuxadmin";
+    passwordCtlr.text = "RBCM-muxadm1n";
+
     bioShown = Api.getLogout();
     host = Api.getHost();
 
@@ -57,6 +60,7 @@ class _LoginScreen extends State<LoginScreen> {
         canTouchId = touch;
       });
 
+      /*
       final x = TMAuth.getAuthFromKeyChain();
       x.then((v) {
         if (v != null) {
@@ -72,6 +76,7 @@ class _LoginScreen extends State<LoginScreen> {
         }
         setState(() => checked = true);
       });
+      */
     });
 
     super.initState();
@@ -127,6 +132,7 @@ class _LoginScreen extends State<LoginScreen> {
         }
       });
     }
+    /*
     if (!bioShown && checked) {
       setState(() => bioShown = true);
       if (host != null && savedLoginId != null && savedPassword != null) {
@@ -140,6 +146,7 @@ class _LoginScreen extends State<LoginScreen> {
         });
       }
     }
+    */
 
     final children = <Widget>[
       Expanded(flex: 1, child: SizedBox()),

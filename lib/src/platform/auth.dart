@@ -48,11 +48,13 @@ class TMAuth {
             await _localAuth.getAvailableBiometrics();
         print(bioTypes.toString());
 
-        bioSuccess = await _localAuth.authenticateWithBiometrics(
+        bioSuccess = await _localAuth.authenticate(
             localizedReason:
                 'Authenticate for MUX Admin access\n$loginId\n@ $host',
-            useErrorDialogs: true,
-            stickyAuth: false);
+            options: const AuthenticationOptions(
+                biometricOnly: true,
+                stickyAuth: false,
+                useErrorDialogs: false));
       }
       print('bioSuccess=' + bioSuccess.toString());
     } catch (e) {

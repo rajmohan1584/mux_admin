@@ -13,21 +13,21 @@ class ClientsHelper {
 
   static Widget buildClientSlider(BuildContext context, Client client,
       Function setLoading, Function onReloadData) {
-    /*
-    final actions = ClientActions.slideActions(context, client, client.connection, setLoading, onReloadData);
-    final secondaryActions = ClientActions.secondarySlideActions(context, client.connection, setLoading, onReloadData);
+    final actions = ClientActions.slideActions(
+        context, client, client.connection, setLoading, onReloadData);
+    final secondaryActions = ClientActions.secondarySlideActions(
+        context, client.connection, setLoading, onReloadData);
     return Slidable(
-      actionPane: SlidableDrawerActionPane(),
-      actionExtentRatio: 0.25,
+      //actionPane: SlidableDrawerActionPane(),
+      //actionExtentRatio: 0.25,
       child: Container(
         color: Colors.white,
         child: buildClientCard(context, client),
       ),
-      actions: actions,
-      secondaryActions: secondaryActions,
+      startActionPane: actions,
+      endActionPane: secondaryActions,
     );
-    */
-    return Text('null');
+    //return Text('null');
   }
 
   static Widget buildClientCard(BuildContext context, Client client,
@@ -78,7 +78,7 @@ class ClientsHelper {
         children: [left, right]);
   }
 
-  static Widget buildConnectionRow(BuildContext context, Connection conn) {
+  static Widget buildConnectionRow(BuildContext context, Connection? conn) {
     var connectionId = conn != null ? conn.connectionId : 'Not Connected';
     final status = conn != null ? conn.status : '--';
 

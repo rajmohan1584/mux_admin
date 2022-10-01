@@ -184,8 +184,8 @@ class ClientActions {
     });
   }
 
-  static slideActions(BuildContext context, Client client, Connection conn,
-      Function preAction, Function postAction) {
+  static ActionPane slideActions(BuildContext context, Client client,
+      Connection? conn, Function preAction, Function postAction) {
     final actions = <Widget>[];
 
     if (conn != null && conn.connected) {
@@ -199,15 +199,6 @@ class ClientActions {
               disconnect(context, cid, name, preAction, postAction),
           //icon: IMAGES.assetImage("disconnect.png",width:40, height:40),
           label: "Disconnect"));
-      /*
-      actions.add(
-        IconSlideAction(
-          caption: 'Disconnect',
-          color: COLORS.color('danger'),
-          icon: Icons.cloud_off,
-          onTap: () => disconnect(context, cid, name, preAction, postAction),
-      ));
-      */
       if (conn.active) {
         actions.add(SlidableAction(
             backgroundColor: COLORS.darkBackground['orange']!,
@@ -215,30 +206,12 @@ class ClientActions {
                 stop(context, cid, name, preAction, postAction),
             //icon:IMAGES.assetImage("stop_connection.png",width:40, height:40),
             label: "Stop"));
-        /*
-        actions.add(
-          IconSlideAction(
-            caption: 'Stop',
-            color: COLORS.darkBackground['orange'],
-            icon: Icons.stop,
-            onTap: () => stop(context, cid, name, preAction, postAction),
-        ));
-        */
       } else {
         actions.add(SlidableAction(
             backgroundColor: COLORS.darkBackground['blue']!,
             onPressed: (context) => onStart(cid, preAction, postAction),
             //icon:IMAGES.assetImage("start_connection.png", width: 40, height: 40),
             label: "Start"));
-        /*
-        actions.add(
-          IconSlideAction(
-            caption: 'Start',
-            color: COLORS.border['blue'],
-            icon: Icons.play_circle_outline,
-            onTap: () => onStart(cid, preAction, postAction),
-        ));
-        */
       }
     } else {
       final clientId = client.clientId;
@@ -249,21 +222,16 @@ class ClientActions {
               connect(context, clientId, name, preAction, postAction),
           //icon: IMAGES.assetImage("connect.png", width:40, height:40),
           label: "Connect"));
-      /*
-      actions.add(
-        IconSlideAction(
-          caption: 'Connect',
-          color: COLORS.border['blue'],
-          icon: Icons.cloud_done,
-          onTap: () => connect(context, clientId, name, preAction, postAction),
-      ));
-      */
     }
-    return actions;
+
+    return ActionPane(
+        dragDismissible: false,
+        motion: const DrawerMotion(),
+        children: actions);
   }
 
-  static secondarySlideActions(BuildContext context, Connection conn,
-      Function preAction, Function postAction) {
+  static ActionPane secondarySlideActions(BuildContext context,
+      Connection? conn, Function preAction, Function postAction) {
     final actions = <Widget>[];
     if (conn == null || !conn.connected) {
       actions.add(SlidableAction(
@@ -271,57 +239,28 @@ class ClientActions {
           onPressed: (context) => print('NooP'),
           //icon:IMAGES.assetImage("not_connected.png",width:40, height:40),
           label: "N/A"));
-      /*
-      actions.add(
-        IconSlideAction(
-          caption: 'Not Connected',
-          color: COLORS.color('secondary', true),
-          icon: CupertinoIcons.info,
-          onTap: () => print('NooP'),
-      ));
-      */
+    } else {
+      final name = conn.displayName;
+      final cid = conn.connectionId;
+      final active = conn.active;
 
-      return actions;
-    }
-
-    final name = conn.displayName;
-    final cid = conn.connectionId;
-    final active = conn.active;
-
-    actions.add(SlidableAction(
-        backgroundColor: COLORS.darkBackground['yellow']!,
-        onPressed: (context) =>
-            pull(context, cid, name, active, preAction, postAction),
-        //icon: IMAGES.assetImage("pull_connection.png",width:40, height:40),
-        label: "Pull"));
-
-    /*
-    actions.add(
-      IconSlideAction(
-        caption: 'Pull',
-        color: COLORS.border['red'],
-        icon: Icons.highlight_off,
-        onTap: () => pull(context, cid, name, active, preAction, postAction),
-    ));
-    */
-
-    if (active) {
       actions.add(SlidableAction(
-          backgroundColor: COLORS.darkBackground['blue']!,
-          onPressed: (context) => send(cid, preAction, postAction),
-          //icon: IMAGES.assetImage("send_connection.png",width:40, height:40),
-          label: "Send"));
-      /*
-      actions.add(
-        IconSlideAction(
-          caption: 'Send',
-          color: COLORS.border['blue'],
-          icon: Icons.send,
-          onTap: () => onSend(cid, preAction, postAction),
-      ));
-      */
+          backgroundColor: COLORS.darkBackground['yellow']!,
+          onPressed: (context) =>
+              pull(context, cid, name, active, preAction, postAction),
+          //icon: IMAGES.assetImage("pull_connection.png",width:40, height:40),
+          label: "Pull"));
+      if (active) {
+        actions.add(SlidableAction(
+            backgroundColor: COLORS.darkBackground['blue']!,
+            onPressed: (context) => send(cid, preAction, postAction),
+            //icon: IMAGES.assetImage("send_connection.png",width:40, height:40),
+            label: "Send"));
+      }
     }
-
-    return actions;
+    return ActionPane(
+        dragDismissible: false,
+        motion: const DrawerMotion(),
+        children: actions);
   }
 }

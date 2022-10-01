@@ -63,13 +63,13 @@ class Client {
   String _displayName = "";
   String _orgType = "";
 
-  Connection _connection = Connection();
+  Connection? _connection;
   bool _hasConnection = false;
 
   String get clientId => _clientId ?? 'Unk';
   String get displayName => _displayName ?? 'Unk';
   String get orgType => _orgType ?? 'Unk';
-  Connection get connection => _connection;
+  Connection? get connection => _connection;
   bool get hasConnection => _hasConnection;
   set connection(c) {
     _connection = c;

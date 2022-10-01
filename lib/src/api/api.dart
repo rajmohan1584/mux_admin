@@ -7,7 +7,7 @@ import 'package:mux_admin/src/helpers/error.dart';
 
 //const _root = 'http://192.168.29.175:3000/api/v1';
 //const _root = 'https://wsc.ibxdev.com/api/v1';
-var _host = 'https://wells.ibxdev.com';
+var _host = 'https://rbccm.ibxdev.com';
 
 var _root = '$_host/api/v1';
 var _muxkit = "$_root/muxkit";

@@ -140,6 +140,7 @@ class _HomeTabState extends State<HomeTab> {
   void _setData() {}
 
   Widget buildLayout(context) {
+    /*
     return StaggeredGridView.count(
       mainAxisSpacing: 12.0,
       crossAxisSpacing: 12.0,
@@ -160,6 +161,8 @@ class _HomeTabState extends State<HomeTab> {
         StaggeredTile.extent(2, 150.0),
       ],
     );
+    */
+    return Text('TODO');
   }
 
   Future<void> _refreshData() {
@@ -232,7 +235,8 @@ class _HomeTabState extends State<HomeTab> {
           sliver: SliverPadding(
             padding: EdgeInsets.symmetric(vertical: 12),
             sliver: SliverList(
-              delegate: SliverChildBuilderDelegate(_listBuilder),
+              delegate: SliverChildBuilderDelegate(_listBuilder,
+                  childCount: _home.connections.length + 1),
             ),
           ),
         ),

@@ -26,7 +26,7 @@ import 'package:mux_admin/src/tabs/offers/offers.dart';
 //IO.Socket ws;
 
 final GlobalKey<NavigatorState> firstTabNavKey = GlobalKey<NavigatorState>();
-late Timer _timer;
+Timer _timer = Timer(const Duration(seconds: 30), () => {});
 //IOWebSocketChannel ws;
 
 // Shows a different type of scaffold depending on the platform.
@@ -86,7 +86,8 @@ class _PlatformNavState extends State<PlatformNav> with WidgetsBindingObserver {
   startTimer() {
     if (_timer != null && _timer.isActive) {
       print("startTimer - timer already active");
-      return;
+      stopTimer();
+      //return;
     }
     const dur = Duration(seconds: 30);
     _timer = Timer.periodic(dur, onTimer);
